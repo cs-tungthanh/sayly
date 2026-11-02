@@ -27,7 +27,7 @@ const PAST_LINE_CLASS = 'elang-yt-subtitle-line-past';
 const WORD_CLASS = 'elang-yt-subtitle-word';
 const SPOKEN_CLASS = 'elang-yt-subtitle-word-now';
 
-// While the video is paused, check this often for changes (CC turned on, captions arriving, a seek)
+// While subtitles aren't wanted on a playing video (paused, setting off, CC off), check this often for changes
 const IDLE_POLL_MS = 250;
 // How often to ask for the video's sentences; a cached answer is cheap, and a new caption language shows up
 const SENTENCES_REFRESH_MS = 1000;
@@ -146,16 +146,12 @@ function markSpokenWord(nowMs: number): void {
   spokenWord = word;
 }
 
-/**
- * Show the sentences at the video's current time
- * @returns Whether Sayly's subtitles are in use, i.e. the video has sentences to show
- */
-function render(player: HTMLElement, video: HTMLVideoElement): boolean {
+function render(player: HTMLElement, video: HTMLVideoElement): void {
   const list = currentSentences();
   player.classList.toggle(ACTIVE_CLASS, list !== null);
   if (!list) {
     hide();
-    return false;
+    return;
   }
 
   const element = getOverlay(player);
@@ -167,7 +163,7 @@ function render(player: HTMLElement, video: HTMLVideoElement): boolean {
   // Before the first sentence, or long after the last one ended with nothing new yet
   if (index < 0 || nowMs > list[index].endMs + SUBTITLE_HOLD_MS) {
     clearLines();
-    return true;
+    return;
   }
 
   const first = Math.max(0, index - lineCount() + 1);
@@ -179,7 +175,6 @@ function render(player: HTMLElement, video: HTMLVideoElement): boolean {
   }
 
   markSpokenWord(nowMs);
-  return true;
 }
 
 function tick(): void {
@@ -195,17 +190,19 @@ function tick(): void {
 
   const player = document.getElementById('movie_player');
   const video = getWatchVideo();
-  let showing = false;
+  // Wanted while the setting and CC are on; the setting is read first, so CC isn't checked when it's off
+  const wanted = player !== null && video !== null && enabled() && isWatchPage() && isCaptionsOn();
   // An ad plays in the same video element, on its own timeline
-  if (player && video && enabled() && isWatchPage() && !isAdShowing() && isCaptionsOn()) {
+  if (wanted && !isAdShowing()) {
     refreshSentences();
-    showing = render(player, video);
+    render(player, video);
   } else {
     hide();
   }
 
-  // Every frame while subtitles show on a playing video, so the spoken word keeps up; otherwise a slower check
-  if (showing && video && !video.paused) {
+  // Every frame while wanted on a playing video, so the spoken word keeps up and the player's captions are
+  // replaced without a flash (when sentences arrive or an ad ends); otherwise a slower check
+  if (wanted && !video.paused) {
     frame = requestAnimationFrame(tick);
   } else {
     timer = setTimeout(tick, IDLE_POLL_MS);
