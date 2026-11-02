@@ -21,7 +21,8 @@ import {
   saveYouTubeSubtitleSize
 } from '../shared/utils';
 import { createIcon, setButtonIcon, ICONS } from '../ui/icons';
-import { UI_LABELS } from '../constants/messages';
+import { stopPlayerEvents } from '../ui/popup-manager';
+import { UI_LABELS, SHORTCUT_MODE_CHOICES, seekSecondsLabel } from '../constants/messages';
 import {
   MESSAGE_ACTIONS,
   YOUTUBE_SEEK_MIN_SECONDS,
@@ -114,8 +115,6 @@ interface StepperOptions {
   value: number;
   min: number;
   max: number;
-  // How much one press of − or + changes the value (1 when left out)
-  step?: number;
   lessLabel: string;
   moreLabel: string;
   format: (value: number) => string;
@@ -125,7 +124,7 @@ interface StepperOptions {
 /**
  * A − value + stepper row, e.g. how far the shortcuts skip without captions
  */
-function createStepperRow({ label, value: initial, min, max, step: stepBy = 1, lessLabel, moreLabel, format, onChange }: StepperOptions): HTMLElement {
+function createStepperRow({ label, value: initial, min, max, lessLabel, moreLabel, format, onChange }: StepperOptions): HTMLElement {
   const row = document.createElement('div');
   row.className = 'elang-yt-row';
 
@@ -154,8 +153,8 @@ function createStepperRow({ label, value: initial, min, max, step: stepBy = 1, l
     show();
     onChange(current);
   };
-  less.addEventListener('click', () => step(-stepBy));
-  more.addEventListener('click', () => step(stepBy));
+  less.addEventListener('click', () => step(-1));
+  more.addEventListener('click', () => step(1));
   show();
 
   stepper.append(less, value, more);
@@ -220,17 +219,12 @@ async function createPanel(): Promise<HTMLElement> {
     shortcutsRow.querySelector('.elang-yt-hint')!.textContent = bySentence
       ? UI_LABELS.YT_SHORTCUTS_SENTENCE_HINT
       : UI_LABELS.YT_SHORTCUTS_SECONDS_HINT;
-    secondsRow.querySelector('.elang-yt-row-text')!.textContent = bySentence
-      ? UI_LABELS.YT_SKIP_SECONDS
-      : UI_LABELS.YT_SKIP_SECONDS_ALWAYS;
+    secondsRow.querySelector('.elang-yt-row-text')!.textContent = seekSecondsLabel(current);
   };
   showMode(mode);
   const modeRow = createChoiceRow(
     UI_LABELS.YT_SHORTCUT_MODE,
-    [
-      { value: YOUTUBE_SHORTCUT_MODES.SENTENCE, label: UI_LABELS.YT_SHORTCUT_MODE_SENTENCE },
-      { value: YOUTUBE_SHORTCUT_MODES.SECONDS, label: UI_LABELS.YT_SHORTCUT_MODE_SECONDS }
-    ],
+    SHORTCUT_MODE_CHOICES.map(({ mode: value, name: label }) => ({ value, label })),
     mode,
     current => {
       showMode(current);
@@ -269,10 +263,8 @@ async function createPanel(): Promise<HTMLElement> {
     allSettings
   );
 
-  // Keep clicks and keys inside the panel from reaching the player (which would pause or seek)
-  ['click', 'mousedown', 'mouseup', 'pointerdown', 'pointerup', 'dblclick', 'wheel'].forEach(type => {
-    element.addEventListener(type, event => event.stopPropagation());
-  });
+  // Keep clicks inside the panel from reaching the player (which would pause or seek)
+  stopPlayerEvents(element);
   // Keys pressed in the panel stay out of the player's shortcuts (Escape is handled on the document)
   element.addEventListener('keydown', event => {
     if (event.key !== 'Escape') event.stopPropagation();

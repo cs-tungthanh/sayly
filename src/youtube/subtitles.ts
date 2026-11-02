@@ -27,7 +27,7 @@ const PAST_LINE_CLASS = 'elang-yt-subtitle-line-past';
 const WORD_CLASS = 'elang-yt-subtitle-word';
 const SPOKEN_CLASS = 'elang-yt-subtitle-word-now';
 
-// While the video is paused, check this often for changes (CC turned on, captions arriving, a seek)
+// While subtitles aren't wanted on a playing video (paused, setting off, CC off), check this often for changes
 const IDLE_POLL_MS = 250;
 // How often to ask for the video's sentences; a cached answer is cheap, and a new caption language shows up
 const SENTENCES_REFRESH_MS = 1000;
@@ -190,16 +190,19 @@ function tick(): void {
 
   const player = document.getElementById('movie_player');
   const video = getWatchVideo();
+  // Wanted while the setting and CC are on; the setting is read first, so CC isn't checked when it's off
+  const wanted = player !== null && video !== null && enabled() && isWatchPage() && isCaptionsOn();
   // An ad plays in the same video element, on its own timeline
-  if (player && video && enabled() && isWatchPage() && !isAdShowing() && isCaptionsOn()) {
+  if (wanted && !isAdShowing()) {
     refreshSentences();
     render(player, video);
   } else {
     hide();
   }
 
-  // Every frame while playing, so the spoken word keeps up; a slower check while paused
-  if (video && !video.paused) {
+  // Every frame while wanted on a playing video, so the spoken word keeps up and the player's captions are
+  // replaced without a flash (when sentences arrive or an ad ends); otherwise a slower check
+  if (wanted && !video.paused) {
     frame = requestAnimationFrame(tick);
   } else {
     timer = setTimeout(tick, IDLE_POLL_MS);

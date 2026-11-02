@@ -2,7 +2,14 @@
  * User-facing messages and error text
  */
 
-import { THEMES, Theme, SPEECH_SPEEDS, DEFAULT_SPEECH_SPEED } from './app-constants';
+import {
+  THEMES,
+  Theme,
+  SPEECH_SPEEDS,
+  DEFAULT_SPEECH_SPEED,
+  YOUTUBE_SHORTCUT_MODES,
+  YouTubeShortcutMode
+} from './app-constants';
 
 export const ERROR_MESSAGES = {
   ERROR_LOADING: 'Error loading',
@@ -87,6 +94,19 @@ export const THEME_CHOICES: ReadonlyArray<{ theme: Theme; name: string }> = [
   { theme: THEMES.LIGHT, name: UI_LABELS.THEME_LIGHT },
   { theme: THEMES.DARK, name: UI_LABELS.THEME_DARK }
 ];
+
+/** What the A and D shortcuts can jump by, as shown in the pickers */
+export const SHORTCUT_MODE_CHOICES: ReadonlyArray<{ mode: YouTubeShortcutMode; name: string }> = [
+  { mode: YOUTUBE_SHORTCUT_MODES.SENTENCE, name: UI_LABELS.YT_SHORTCUT_MODE_SENTENCE },
+  { mode: YOUTUBE_SHORTCUT_MODES.SECONDS, name: UI_LABELS.YT_SHORTCUT_MODE_SECONDS }
+];
+
+/**
+ * The seconds setting's label: jumping by sentence uses the seconds only for videos without captions
+ */
+export function seekSecondsLabel(mode: YouTubeShortcutMode): string {
+  return mode === YOUTUBE_SHORTCUT_MODES.SENTENCE ? UI_LABELS.YT_SKIP_SECONDS : UI_LABELS.YT_SKIP_SECONDS_ALWAYS;
+}
 
 /** The speech speed setting's choices, as shown in the pickers */
 export const SPEED_CHOICES: ReadonlyArray<{ speed: number; name: string }> = SPEECH_SPEEDS.map(speed => ({

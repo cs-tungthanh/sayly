@@ -44,7 +44,14 @@ import {
 } from '../shared/utils';
 import { speechService } from '../speech/speech-service';
 import { getOptionalElement, onDOMReady, applyPageTheme, fillTranslationSelect } from '../shared/dom-helpers';
-import { ERROR_MESSAGES, UI_LABELS, THEME_CHOICES, SPEED_CHOICES } from '../constants/messages';
+import {
+  ERROR_MESSAGES,
+  UI_LABELS,
+  THEME_CHOICES,
+  SPEED_CHOICES,
+  SHORTCUT_MODE_CHOICES,
+  seekSecondsLabel
+} from '../constants/messages';
 import {
   POPUP_MODES,
   PopupMode,
@@ -54,7 +61,8 @@ import {
   GOOGLE_VOICE,
   AUTO_VOICE,
   VOICE_SAMPLE_TEXT,
-  YOUTUBE_SHORTCUT_MODES,
+  YOUTUBE_SUBTITLE_MIN_LINES,
+  YOUTUBE_SUBTITLE_MAX_LINES,
   YouTubeShortcutMode
 } from '../constants/app-constants';
 
@@ -302,6 +310,10 @@ async function renderYouTubeSubtitleLines(elements: OptionsElements): Promise<vo
     return;
   }
 
+  for (let lines = YOUTUBE_SUBTITLE_MIN_LINES; lines <= YOUTUBE_SUBTITLE_MAX_LINES; lines++) {
+    select.appendChild(new Option(String(lines), String(lines)));
+  }
+
   select.value = String(await getYouTubeSubtitleLines());
   select.addEventListener('change', () => {
     const lines = Number(select.value);
@@ -345,11 +357,13 @@ async function renderYouTubeShortcutMode(elements: OptionsElements): Promise<voi
     return;
   }
 
+  SHORTCUT_MODE_CHOICES.forEach(({ mode, name }) => {
+    select.appendChild(new Option(name, mode));
+  });
+
   const showMode = () => {
     if (elements.youtubeSeekLabel) {
-      elements.youtubeSeekLabel.textContent = select.value === YOUTUBE_SHORTCUT_MODES.SENTENCE
-        ? UI_LABELS.YT_SKIP_SECONDS
-        : UI_LABELS.YT_SKIP_SECONDS_ALWAYS;
+      elements.youtubeSeekLabel.textContent = seekSecondsLabel(select.value as YouTubeShortcutMode);
     }
   };
 
