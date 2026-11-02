@@ -146,12 +146,16 @@ function markSpokenWord(nowMs: number): void {
   spokenWord = word;
 }
 
-function render(player: HTMLElement, video: HTMLVideoElement): void {
+/**
+ * Show the sentences at the video's current time
+ * @returns Whether Sayly's subtitles are in use, i.e. the video has sentences to show
+ */
+function render(player: HTMLElement, video: HTMLVideoElement): boolean {
   const list = currentSentences();
   player.classList.toggle(ACTIVE_CLASS, list !== null);
   if (!list) {
     hide();
-    return;
+    return false;
   }
 
   const element = getOverlay(player);
@@ -163,7 +167,7 @@ function render(player: HTMLElement, video: HTMLVideoElement): void {
   // Before the first sentence, or long after the last one ended with nothing new yet
   if (index < 0 || nowMs > list[index].endMs + SUBTITLE_HOLD_MS) {
     clearLines();
-    return;
+    return true;
   }
 
   const first = Math.max(0, index - lineCount() + 1);
@@ -175,6 +179,7 @@ function render(player: HTMLElement, video: HTMLVideoElement): void {
   }
 
   markSpokenWord(nowMs);
+  return true;
 }
 
 function tick(): void {
@@ -190,16 +195,17 @@ function tick(): void {
 
   const player = document.getElementById('movie_player');
   const video = getWatchVideo();
+  let showing = false;
   // An ad plays in the same video element, on its own timeline
   if (player && video && enabled() && isWatchPage() && !isAdShowing() && isCaptionsOn()) {
     refreshSentences();
-    render(player, video);
+    showing = render(player, video);
   } else {
     hide();
   }
 
-  // Every frame while playing, so the spoken word keeps up; a slower check while paused
-  if (video && !video.paused) {
+  // Every frame while subtitles show on a playing video, so the spoken word keeps up; otherwise a slower check
+  if (showing && video && !video.paused) {
     frame = requestAnimationFrame(tick);
   } else {
     timer = setTimeout(tick, IDLE_POLL_MS);

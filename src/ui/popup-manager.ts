@@ -15,8 +15,15 @@ import { speechService } from '../speech/speech-service';
  */
 export type PopupRemoveListener = (replaced: boolean) => void;
 
-// Events kept from reaching a full-screen player under the popup, which would pause, seek or leave full screen
+// Events kept from reaching a player under an element, which would pause, seek or leave full screen
 const PLAYER_EVENTS = ['click', 'mousedown', 'mouseup', 'pointerdown', 'pointerup', 'dblclick', 'wheel'];
+
+/**
+ * Keep clicks and scrolls on an element from reaching a video player beneath it
+ */
+export function stopPlayerEvents(element: HTMLElement): void {
+  PLAYER_EVENTS.forEach(type => element.addEventListener(type, event => event.stopPropagation()));
+}
 
 /**
  * Where popups go: the body, or the full-screen element when the body is hidden behind it
@@ -32,6 +39,13 @@ function getPopupContainer(): HTMLElement {
 class PopupManager {
   private currentPopup: HTMLElement | null = null;
   private onRemove: PopupRemoveListener | null = null;
+
+  constructor() {
+    // A popup placed for one screen mode would be hidden or clipped in the other, so entering or leaving full screen closes it
+    document.addEventListener('fullscreenchange', () => {
+      if (this.currentPopup) this.removePopup();
+    });
+  }
 
   /**
    * Position popup near selection with smart boundary detection
@@ -53,9 +67,7 @@ class PopupManager {
     popup.style.top = '0px';
     container.appendChild(popup);
 
-    if (fixed) {
-      PLAYER_EVENTS.forEach(type => popup.addEventListener(type, event => event.stopPropagation()));
-    }
+    if (fixed) stopPlayerEvents(popup);
 
     const popupRect = popup.getBoundingClientRect();
     const viewportWidth = window.innerWidth;

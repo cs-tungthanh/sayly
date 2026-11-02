@@ -8,10 +8,15 @@
  */
 
 import { liveSetting } from '../shared/settings-cache';
-import { getYouTubeHoverWords } from '../shared/utils';
+import { getPopupMode, getYouTubeHoverWords } from '../shared/utils';
 import { popupManager } from '../ui/popup-manager';
 import { openTextPopup, readPopupLook } from '../ui/text-popup';
-import { CAPTION_HOVER_OPEN_DELAY_MS, CAPTION_HOVER_CLOSE_DELAY_MS } from '../constants/app-constants';
+import {
+  CAPTION_HOVER_OPEN_DELAY_MS,
+  CAPTION_HOVER_CLOSE_DELAY_MS,
+  DEFAULT_POPUP_MODE,
+  POPUP_MODES
+} from '../constants/app-constants';
 import { getWatchVideo, isAdShowing, isWatchPage } from './youtube-page';
 import type { YouTubeFeature } from './youtube-features';
 
@@ -23,6 +28,8 @@ const HIGHLIGHT_NAME = 'elang-caption-word';
 const WORD_PATTERN = /[\p{L}\p{M}]+(?:['’-][\p{L}\p{M}]+)*/gu;
 
 const hoverEnabled = liveSetting('youtubeHoverWords', getYouTubeHoverWords, true);
+// "Don't display" turns hover off too; "Display icon" doesn't apply here, hovering opens the popup itself
+const popupMode = liveSetting('popupMode', getPopupMode, DEFAULT_POPUP_MODE);
 
 interface CaptionWord {
   text: string;
@@ -34,8 +41,6 @@ let popup: HTMLElement | null = null;
 let shownWord: CaptionWord | null = null;
 // The video hovering paused, to play again when the popup closes
 let pausedVideo: HTMLVideoElement | null = null;
-// Set while one word's popup replaces another's, so the video stays paused
-let swapping = false;
 
 let pendingWord: CaptionWord | null = null;
 let openTimer: ReturnType<typeof setTimeout> | null = null;
@@ -87,6 +92,14 @@ function setHighlight(range: Range | null): void {
   }
 }
 
+/**
+ * Whether a popup opened some other way (a selection's) is shown; hovering leaves it alone
+ */
+function isOtherPopupShown(): boolean {
+  const current = popupManager.getCurrentPopup();
+  return current !== null && current !== popup;
+}
+
 function cancelOpen(): void {
   if (openTimer) clearTimeout(openTimer);
   openTimer = null;
@@ -109,6 +122,7 @@ function scheduleOpen(word: CaptionWord): void {
     openTimer = null;
     pendingWord = null;
     // The captions may have moved on while the video played; open whatever is under the pointer now
+    if (isOtherPopupShown()) return;
     const current = pointer && findWordAt(pointer.x, pointer.y);
     if (current) showWord(current);
   }, CAPTION_HOVER_OPEN_DELAY_MS);
@@ -143,32 +157,32 @@ function resumeVideo(): void {
 
 async function showWord(word: CaptionWord): Promise<void> {
   const count = ++openCount;
-  pauseVideo();
   const look = await readPopupLook();
-  if (count !== openCount || !word.range.startContainer.isConnected) return;
+  // Check again after the wait: the line may have changed, the pointer left, or a selection's popup opened
+  if (count !== openCount || !word.range.startContainer.isConnected || !pointer || isOtherPopupShown()) return;
 
   const rect = word.range.getBoundingClientRect();
   const position = { x: rect.left + rect.width / 2, y: rect.bottom + window.scrollY };
 
-  let element: HTMLElement | null = null;
-  swapping = popup !== null;
-  element = openTextPopup(word.text, position, look, replaced => handlePopupRemoved(element, replaced));
-  swapping = false;
+  // Pause only once the popup is sure to open, so nothing is left paused without one
+  pauseVideo();
+  // Let go of the previous word's popup first: its removal is then ignored, keeping the video paused
+  popup = null;
+  cancelClose();
+  const element: HTMLElement = openTextPopup(word.text, position, look, replaced => handlePopupRemoved(element, replaced));
 
   popup = element;
   shownWord = word;
   setHighlight(word.range);
 }
 
-function handlePopupRemoved(element: HTMLElement | null, replaced: boolean): void {
+function handlePopupRemoved(element: HTMLElement, replaced: boolean): void {
   if (element !== popup) return;
   popup = null;
   shownWord = null;
   setHighlight(null);
   cancelClose();
 
-  // The next word's popup is taking its place
-  if (replaced && swapping) return;
   // Another popup (a selection's) took over; leave the video paused for it
   if (replaced) {
     pausedVideo = null;
@@ -184,7 +198,7 @@ function update(): void {
   frameQueued = false;
   if (!pointer) return;
 
-  if (!hoverEnabled() || !isWatchPage() || isAdShowing()) {
+  if (!hoverEnabled() || popupMode() === POPUP_MODES.NONE || !isWatchPage() || isAdShowing()) {
     cancelOpen();
     scheduleClose();
     return;
@@ -212,9 +226,7 @@ function update(): void {
     return;
   }
 
-  // Leave a popup opened some other way (a selection's) alone
-  const current = popupManager.getCurrentPopup();
-  if (current && current !== popup) return;
+  if (isOtherPopupShown()) return;
 
   // Crossing other words on the way to the popup shouldn't swap it, so a new word waits like the first
   cancelClose();
