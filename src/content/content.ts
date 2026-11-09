@@ -8,7 +8,8 @@ import { popupManager } from '../ui/popup-manager';
 import {
   getSelectedText,
   getSelectionPosition,
-  isSelectionInsideElement
+  isSelectionInsideElement,
+  isSelectionInEditableField
 } from '../ui/selection-helper';
 import {
   normalizeHostname,
@@ -68,7 +69,8 @@ async function isExtensionEnabled(): Promise<boolean> {
 }
 
 /**
- * React to a new selection as the popup setting says: open the popup, show the icon, or do nothing
+ * React to a new selection as the popup setting says: open the popup, show the icon, or do nothing.
+ * A selection inside a text field or editor shows the icon even in popup mode.
  * @param touch Whether a finger made the selection: the icon is shown instead of the popup, so a
  * selection made to copy isn't covered, and it goes below the system's edit menu
  */
@@ -92,7 +94,8 @@ async function handleSelection(touch = false): Promise<void> {
 
   const look = await readPopupLook();
 
-  if (mode === POPUP_MODES.ICON || touch) {
+  // A selection made while typing is usually for editing, so it gets the icon, not the popup
+  if (mode === POPUP_MODES.ICON || touch || isSelectionInEditableField()) {
     // Text and position are kept: clicking the icon may change the page's selection
     // A finger selection already has the system's Copy, so the bar is just the icon
     const showCopy = look.showCopy && !touch;

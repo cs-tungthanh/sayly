@@ -41,6 +41,17 @@ export function getSelectionPosition(): { x: number; y: number } | null {
 }
 
 /**
+ * Whether the selection sits where the user types: a text field or a contenteditable editor
+ */
+export function isSelectionInEditableField(): boolean {
+  if (getFocusedTextField()) return true;
+
+  const anchor = window.getSelection()?.anchorNode;
+  const element = anchor?.nodeType === Node.ELEMENT_NODE ? anchor as HTMLElement : anchor?.parentElement;
+  return Boolean(element?.isContentEditable);
+}
+
+/**
  * The focused input or textarea holding a text selection, if any
  */
 function getFocusedTextField(): HTMLInputElement | HTMLTextAreaElement | null {
