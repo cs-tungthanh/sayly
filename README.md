@@ -45,6 +45,16 @@ pnpm build
 
 Then open `chrome://extensions` (or `edge://extensions`), turn on **Developer mode**, click **Load unpacked** and choose the `dist/` folder.
 
+### Safari (Mac, iPad, iPhone)
+
+`safari/Sayly` is an Xcode project that wraps the extension in the app Safari requires. It reads the files straight from `dist/`, so build first:
+
+```bash
+pnpm build:safari
+```
+
+This builds `dist/` and opens the project in Xcode. Run the **Sayly (iOS)** scheme on an iPad or simulator (or **Sayly (macOS)** on the Mac), then turn Sayly on in Settings → Apps → Safari → Extensions and allow it on every website. Safari has no offscreen documents, so it speaks with the system's voices instead of Google's.
+
 ## Usage
 
 1. Select text on any page. The popup opens next to it (or an icon appears, depending on your setting).

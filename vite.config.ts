@@ -52,6 +52,8 @@ export default defineConfig(({ mode }) => ({
       },
       output: {
         entryFileNames: '[name].js',
+        // Unhashed, so the Safari Xcode project (safari/), which lists every file in dist, keeps finding them
+        chunkFileNames: 'assets/[name].js',
         format: 'es',
       },
     },

@@ -36,6 +36,8 @@ class SpeechService {
   private lastText = '';
   private lastWasSlow = false;
   private lastSpokenAt = 0;
+  // Whether the background can play Google's voice; null until it answers. False in Safari
+  private googleSupported: boolean | null = null;
 
   // Shared by every caller, so a browser that never reports voices (common on Linux) costs the timeout once
   private voicesLoaded: Promise<void> | null = null;
@@ -138,11 +140,17 @@ class SpeechService {
    * offscreen document. Nothing is sent to Google until play is pressed
    */
   warmUp(): void {
+    if (this.googleSupported === null) {
+      chrome.runtime.sendMessage({ action: TTS_MESSAGES.SUPPORT })
+        .then(response => { this.googleSupported = response?.google !== false; })
+        .catch(() => {});
+    }
+
     readVoice()
       .then(voiceId => this.getChosenVoice(voiceId))
       .then(voice => {
-        // A browser voice needs no offscreen document
-        if (voice) return;
+        // A browser voice needs no offscreen document, and Safari can't make one
+        if (voice || this.googleSupported === false) return;
         return chrome.runtime.sendMessage({ action: TTS_MESSAGES.PRELOAD });
       })
       // Extension context invalidated (extension reloaded); playing will report it
@@ -158,6 +166,7 @@ class SpeechService {
     this.cancelLocal();
     const token = this.playToken;
     const slow = this.nextIsSlow(text);
+    if (this.googleSupported === false) this.unlockBrowserSpeech();
 
     callbacks?.onStart?.();
 
@@ -186,6 +195,10 @@ class SpeechService {
     // A chosen voice that is no longer installed falls through to Google
     if (chosenVoice) {
       return this.speakWithBrowser(text, slow, speed, chosenVoice, isCurrent);
+    }
+
+    if (this.googleSupported === false) {
+      return this.speakWithBrowser(text, slow, speed, null, isCurrent);
     }
 
     const status = await this.speakWithGoogle(text, slow, speed);
@@ -244,6 +257,17 @@ class SpeechService {
 
       speechSynthesis.speak(utterance);
     });
+  }
+
+  /**
+   * Speak a silent utterance while still inside the tap that pressed play: Safari on iPad and iPhone
+   * only lets speech start from a user gesture, and the real utterance starts after awaiting settings
+   */
+  private unlockBrowserSpeech(): void {
+    if (!('speechSynthesis' in window)) return;
+    const silent = new SpeechSynthesisUtterance(' ');
+    silent.volume = 0;
+    speechSynthesis.speak(silent);
   }
 
   /**

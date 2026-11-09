@@ -8,6 +8,7 @@
     "dev:edge": "bash scripts/dev-edge.sh",
     "build": "tsc && vite build && vite build -c vite.config.content.ts",
     "build:zip": "pnpm run build && cd dist && zip -r ../sayly.zip .",
+    "build:safari": "pnpm run build && xed safari/Sayly",
     "type-check": "tsc --noEmit",
     "cmudict": "node scripts/build-cmudict.js",
     "cws:check": "node scripts/get-refresh-token.js check",

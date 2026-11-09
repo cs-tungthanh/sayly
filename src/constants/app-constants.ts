@@ -137,6 +137,10 @@ export const DARK_THEME_CSS_CLASS = 'elang-theme-dark';
 
 // UI Timing (milliseconds)
 export const SELECTION_DELAY_MS = 10;
+// Touch selection (long press, then dragging the handles) has no mouseup: react once it rests this long
+export const TOUCH_SELECTION_DELAY_MS = 500;
+// How far below a touch selection the popup starts, to clear the system's Copy / Look Up menu
+export const TOUCH_MENU_CLEARANCE_PX = 90;
 // How long the copy button shows its done state
 export const COPY_FEEDBACK_MS = 1200;
 // A press that moves less than this is a click, not a drag that selects text

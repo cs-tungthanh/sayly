@@ -20,6 +20,8 @@ import { cachedSetting } from '../shared/settings-cache';
 import { startYouTubeFeatures, stopYouTubeFeatures } from '../youtube/youtube-features';
 import {
   SELECTION_DELAY_MS,
+  TOUCH_SELECTION_DELAY_MS,
+  TOUCH_MENU_CLEARANCE_PX,
   CLICK_MAX_MOVE_PX,
   MESSAGE_ACTIONS,
   POPUP_MODES,
@@ -31,10 +33,16 @@ import {
  */
 let isActive = false;
 let mouseupHandler: ((event: MouseEvent) => void) | null = null;
-let mousedownHandler: ((event: MouseEvent) => void) | null = null;
+let pointerdownHandler: ((event: PointerEvent) => void) | null = null;
+let selectionchangeHandler: (() => void) | null = null;
 // Where the current press started, to tell a drag from a click
 let pressX = 0;
 let pressY = 0;
+// Whether the last press was a finger, so selection changes are read (a mouse is read on mouseup)
+let lastPressWasTouch = false;
+let touchSelectionTimer: ReturnType<typeof setTimeout> | undefined;
+// The text the last touch selection opened a popup for, so the selection settling doesn't reopen it
+let touchSelectionText = '';
 
 const readPopupMode = cachedSetting('popupMode', getPopupMode);
 
@@ -61,8 +69,10 @@ async function isExtensionEnabled(): Promise<boolean> {
 
 /**
  * React to a new selection as the popup setting says: open the popup, show the icon, or do nothing
+ * @param touch Whether a finger made the selection: the icon is shown instead of the popup, so a
+ * selection made to copy isn't covered, and it goes below the system's edit menu
  */
-async function handleSelection(): Promise<void> {
+async function handleSelection(touch = false): Promise<void> {
   const selectedText = getSelectedText();
   if (!selectedText) return;
 
@@ -75,15 +85,18 @@ async function handleSelection(): Promise<void> {
   // Get selection position
   const position = getSelectionPosition();
   if (!position) return;
+  if (touch) position.y += TOUCH_MENU_CLEARANCE_PX;
 
   const mode = await readPopupMode();
   if (mode === POPUP_MODES.NONE) return;
 
   const look = await readPopupLook();
 
-  if (mode === POPUP_MODES.ICON) {
+  if (mode === POPUP_MODES.ICON || touch) {
     // Text and position are kept: clicking the icon may change the page's selection
-    const bar = createTrigger(selectedText, () => openTextPopup(selectedText, position, look), look.showCopy);
+    // A finger selection already has the system's Copy, so the bar is just the icon
+    const showCopy = look.showCopy && !touch;
+    const bar = createTrigger(selectedText, () => openTextPopup(selectedText, position, look), showCopy);
     bar.classList.toggle(DARK_THEME_CSS_CLASS, look.dark);
     popupManager.showPopup(bar, position);
     return;
@@ -103,11 +116,27 @@ function isSelectionGesture(event: MouseEvent): boolean {
 }
 
 /**
+ * After a touch selection rests, react to it as mouseup does for a mouse
+ */
+function handleSelectionChange(): void {
+  if (!lastPressWasTouch) return;
+
+  clearTimeout(touchSelectionTimer);
+  touchSelectionTimer = setTimeout(() => {
+    const text = getSelectedText();
+    if (!text || (text === touchSelectionText && popupManager.hasPopup())) return;
+    touchSelectionText = text;
+    handleSelection(true);
+  }, TOUCH_SELECTION_DELAY_MS);
+}
+
+/**
  * Handle click outside popup to dismiss
  */
-function handleDocumentClick(event: MouseEvent): void {
+function handleDocumentClick(event: PointerEvent): void {
   pressX = event.clientX;
   pressY = event.clientY;
+  lastPressWasTouch = event.pointerType === 'touch';
 
   const currentPopup = popupManager.getCurrentPopup();
   if (!currentPopup) return;
@@ -138,10 +167,16 @@ function cleanup(): void {
     mouseupHandler = null;
   }
 
-  if (mousedownHandler) {
-    document.removeEventListener('mousedown', mousedownHandler);
-    mousedownHandler = null;
+  if (pointerdownHandler) {
+    document.removeEventListener('pointerdown', pointerdownHandler);
+    pointerdownHandler = null;
   }
+
+  if (selectionchangeHandler) {
+    document.removeEventListener('selectionchange', selectionchangeHandler);
+    selectionchangeHandler = null;
+  }
+  clearTimeout(touchSelectionTimer);
 
   document.removeEventListener('keydown', handleKeydown);
   stopYouTubeFeatures();
@@ -171,14 +206,17 @@ function init(): void {
 
     if (!isSelectionGesture(event)) return;
 
-    setTimeout(handleSelection, SELECTION_DELAY_MS);
+    setTimeout(() => handleSelection(), SELECTION_DELAY_MS);
   };
 
-  mousedownHandler = handleDocumentClick;
+  // Pointer events, not mouse events: Safari on iPad sends no mousedown for a tap on plain text
+  pointerdownHandler = handleDocumentClick;
+  selectionchangeHandler = handleSelectionChange;
 
   // Register event listeners
   document.addEventListener('mouseup', mouseupHandler);
-  document.addEventListener('mousedown', mousedownHandler);
+  document.addEventListener('pointerdown', pointerdownHandler);
+  document.addEventListener('selectionchange', selectionchangeHandler);
   document.addEventListener('keydown', handleKeydown);
   startYouTubeFeatures();
 }

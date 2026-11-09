@@ -69,7 +69,8 @@ async function translateWithGoogleClient(
   if (!response.ok) throw new Error(`Google HTTP ${response.status}`);
 
   // A refused client gets an HTML abuse page instead of JSON
-  const body = await response.text();
+  // NFC: dictionary entries come decomposed with deprecated tone marks (U+0340), which iOS fonts draw as boxes
+  const body = (await response.text()).normalize('NFC');
   let data: unknown;
   try {
     data = JSON.parse(body);

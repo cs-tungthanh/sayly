@@ -1,0 +1,1061 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C6200CAA3095CADD00433F67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6200CA93095CADD00433F67 /* AppDelegate.swift */; };
+		C6200CAC3095CADD00433F67 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6200CAB3095CADD00433F67 /* SceneDelegate.swift */; };
+		C6200CAF3095CADD00433F67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6200CAD3095CADD00433F67 /* LaunchScreen.storyboard */; };
+		C6200CB23095CADD00433F67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6200CB03095CADD00433F67 /* Main.storyboard */; };
+		C6200CBB3095CADD00433F67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6200CBA3095CADD00433F67 /* AppDelegate.swift */; };
+		C6200CBE3095CADD00433F67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6200CBC3095CADD00433F67 /* Main.storyboard */; };
+		C6200CC53095CADD00433F67 /* Sayly Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C6200CC43095CADD00433F67 /* Sayly Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C6200CCF3095CADD00433F67 /* Sayly Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C6200CCE3095CADD00433F67 /* Sayly Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C6200CD43095CADD00433F67 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = C6200C993095CADC00433F67 /* Main.html */; };
+		C6200CD53095CADD00433F67 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = C6200C993095CADC00433F67 /* Main.html */; };
+		C6200CD63095CADD00433F67 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C6200C9B3095CADC00433F67 /* Icon.png */; };
+		C6200CD73095CADD00433F67 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C6200C9B3095CADC00433F67 /* Icon.png */; };
+		C6200CD83095CADD00433F67 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = C6200C9C3095CADC00433F67 /* Style.css */; };
+		C6200CD93095CADD00433F67 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = C6200C9C3095CADC00433F67 /* Style.css */; };
+		C6200CDA3095CADD00433F67 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200C9D3095CADC00433F67 /* Script.js */; };
+		C6200CDB3095CADD00433F67 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200C9D3095CADC00433F67 /* Script.js */; };
+		C6200CDC3095CADD00433F67 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6200C9E3095CADC00433F67 /* ViewController.swift */; };
+		C6200CDD3095CADD00433F67 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6200C9E3095CADC00433F67 /* ViewController.swift */; };
+		C6200CDE3095CADD00433F67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6200C9F3095CADD00433F67 /* Assets.xcassets */; };
+		C6200CDF3095CADD00433F67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6200C9F3095CADD00433F67 /* Assets.xcassets */; };
+		C6200CE03095CADD00433F67 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6200CA13095CADD00433F67 /* SafariWebExtensionHandler.swift */; };
+		C6200CE13095CADD00433F67 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6200CA13095CADD00433F67 /* SafariWebExtensionHandler.swift */; };
+		C6200D033095CADD00433F67 /* cmudict-ipa.txt in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF33095CADD00433F67 /* cmudict-ipa.txt */; };
+		C6200D043095CADD00433F67 /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF43095CADD00433F67 /* popup.js */; };
+		C6200D053095CADD00433F67 /* offscreen.html in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF53095CADD00433F67 /* offscreen.html */; };
+		C6200D063095CADD00433F67 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF63095CADD00433F67 /* background.js */; };
+		C6200D073095CADD00433F67 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF73095CADD00433F67 /* popup.html */; };
+		C6200D083095CADD00433F67 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF83095CADD00433F67 /* options.js */; };
+		C6200D093095CADD00433F67 /* CMUDICT-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF93095CADD00433F67 /* CMUDICT-LICENSE.txt */; };
+		C6200D0A3095CADD00433F67 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFA3095CADD00433F67 /* icons */; };
+		C6200D0B3095CADD00433F67 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFB3095CADD00433F67 /* manifest.json */; };
+		C6200D0C3095CADD00433F67 /* offscreen.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFC3095CADD00433F67 /* offscreen.js */; };
+		C6200D0D3095CADD00433F67 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFD3095CADD00433F67 /* options.html */; };
+		C6200D0E3095CADD00433F67 /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFE3095CADD00433F67 /* popup.css */; };
+		C6200D0F3095CADD00433F67 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFF3095CADD00433F67 /* content.js */; };
+		C6200D103095CADD00433F67 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C6200D003095CADD00433F67 /* assets */; };
+		C6200D113095CADD00433F67 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = C6200D013095CADD00433F67 /* options.css */; };
+		C6200D123095CADD00433F67 /* content-popup.css in Resources */ = {isa = PBXBuildFile; fileRef = C6200D023095CADD00433F67 /* content-popup.css */; };
+		C6200D133095CADD00433F67 /* cmudict-ipa.txt in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF33095CADD00433F67 /* cmudict-ipa.txt */; };
+		C6200D143095CADD00433F67 /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF43095CADD00433F67 /* popup.js */; };
+		C6200D153095CADD00433F67 /* offscreen.html in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF53095CADD00433F67 /* offscreen.html */; };
+		C6200D163095CADD00433F67 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF63095CADD00433F67 /* background.js */; };
+		C6200D173095CADD00433F67 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF73095CADD00433F67 /* popup.html */; };
+		C6200D183095CADD00433F67 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF83095CADD00433F67 /* options.js */; };
+		C6200D193095CADD00433F67 /* CMUDICT-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C6200CF93095CADD00433F67 /* CMUDICT-LICENSE.txt */; };
+		C6200D1A3095CADD00433F67 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFA3095CADD00433F67 /* icons */; };
+		C6200D1B3095CADD00433F67 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFB3095CADD00433F67 /* manifest.json */; };
+		C6200D1C3095CADD00433F67 /* offscreen.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFC3095CADD00433F67 /* offscreen.js */; };
+		C6200D1D3095CADD00433F67 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFD3095CADD00433F67 /* options.html */; };
+		C6200D1E3095CADD00433F67 /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFE3095CADD00433F67 /* popup.css */; };
+		C6200D1F3095CADD00433F67 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = C6200CFF3095CADD00433F67 /* content.js */; };
+		C6200D203095CADD00433F67 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C6200D003095CADD00433F67 /* assets */; };
+		C6200D213095CADD00433F67 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = C6200D013095CADD00433F67 /* options.css */; };
+		C6200D223095CADD00433F67 /* content-popup.css in Resources */ = {isa = PBXBuildFile; fileRef = C6200D023095CADD00433F67 /* content-popup.css */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C6200CC63095CADD00433F67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6200C933095CADC00433F67 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6200CC33095CADD00433F67;
+			remoteInfo = "Sayly Extension (iOS)";
+		};
+		C6200CD03095CADD00433F67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6200C933095CADC00433F67 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6200CCD3095CADD00433F67;
+			remoteInfo = "Sayly Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C6200CE73095CADD00433F67 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C6200CC53095CADD00433F67 /* Sayly Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CEE3095CADD00433F67 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C6200CCF3095CADD00433F67 /* Sayly Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C6200C9A3095CADC00433F67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		C6200C9B3095CADC00433F67 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		C6200C9C3095CADC00433F67 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		C6200C9D3095CADC00433F67 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		C6200C9E3095CADC00433F67 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C6200C9F3095CADD00433F67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C6200CA13095CADD00433F67 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		C6200CA63095CADD00433F67 /* Sayly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sayly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6200CA93095CADD00433F67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C6200CAB3095CADD00433F67 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C6200CAE3095CADD00433F67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C6200CB13095CADD00433F67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C6200CB33095CADD00433F67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6200CB83095CADD00433F67 /* Sayly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sayly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6200CBA3095CADD00433F67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C6200CBD3095CADD00433F67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C6200CBF3095CADD00433F67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6200CC43095CADD00433F67 /* Sayly Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Sayly Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6200CC93095CADD00433F67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6200CCE3095CADD00433F67 /* Sayly Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Sayly Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6200CD33095CADD00433F67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6200CF33095CADD00433F67 /* cmudict-ipa.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "cmudict-ipa.txt"; path = "../../../dist/cmudict-ipa.txt"; sourceTree = "<group>"; };
+		C6200CF43095CADD00433F67 /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = ../../../dist/popup.js; sourceTree = "<group>"; };
+		C6200CF53095CADD00433F67 /* offscreen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = offscreen.html; path = ../../../dist/offscreen.html; sourceTree = "<group>"; };
+		C6200CF63095CADD00433F67 /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../../dist/background.js; sourceTree = "<group>"; };
+		C6200CF73095CADD00433F67 /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../../dist/popup.html; sourceTree = "<group>"; };
+		C6200CF83095CADD00433F67 /* options.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = options.js; path = ../../../dist/options.js; sourceTree = "<group>"; };
+		C6200CF93095CADD00433F67 /* CMUDICT-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "CMUDICT-LICENSE.txt"; path = "../../../dist/CMUDICT-LICENSE.txt"; sourceTree = "<group>"; };
+		C6200CFA3095CADD00433F67 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../dist/icons; sourceTree = "<group>"; };
+		C6200CFB3095CADD00433F67 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
+		C6200CFC3095CADD00433F67 /* offscreen.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = offscreen.js; path = ../../../dist/offscreen.js; sourceTree = "<group>"; };
+		C6200CFD3095CADD00433F67 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../dist/options.html; sourceTree = "<group>"; };
+		C6200CFE3095CADD00433F67 /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = popup.css; path = ../../../dist/popup.css; sourceTree = "<group>"; };
+		C6200CFF3095CADD00433F67 /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../../dist/content.js; sourceTree = "<group>"; };
+		C6200D003095CADD00433F67 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../dist/assets; sourceTree = "<group>"; };
+		C6200D013095CADD00433F67 /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../dist/options.css; sourceTree = "<group>"; };
+		C6200D023095CADD00433F67 /* content-popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = "content-popup.css"; path = "../../../dist/content-popup.css"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C6200CA33095CADD00433F67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CB53095CADD00433F67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CC13095CADD00433F67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CCB3095CADD00433F67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C6200C923095CADC00433F67 = {
+			isa = PBXGroup;
+			children = (
+				C6200C973095CADC00433F67 /* Shared (App) */,
+				C6200CA03095CADD00433F67 /* Shared (Extension) */,
+				C6200CA83095CADD00433F67 /* iOS (App) */,
+				C6200CB93095CADD00433F67 /* macOS (App) */,
+				C6200CC83095CADD00433F67 /* iOS (Extension) */,
+				C6200CD23095CADD00433F67 /* macOS (Extension) */,
+				C6200CA73095CADD00433F67 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C6200C973095CADC00433F67 /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				C6200C9E3095CADC00433F67 /* ViewController.swift */,
+				C6200C9F3095CADD00433F67 /* Assets.xcassets */,
+				C6200C983095CADC00433F67 /* Resources */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		C6200C983095CADC00433F67 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C6200C993095CADC00433F67 /* Main.html */,
+				C6200C9B3095CADC00433F67 /* Icon.png */,
+				C6200C9C3095CADC00433F67 /* Style.css */,
+				C6200C9D3095CADC00433F67 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C6200CA03095CADD00433F67 /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				C6200CF23095CADD00433F67 /* Resources */,
+				C6200CA13095CADD00433F67 /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		C6200CA73095CADD00433F67 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C6200CA63095CADD00433F67 /* Sayly.app */,
+				C6200CB83095CADD00433F67 /* Sayly.app */,
+				C6200CC43095CADD00433F67 /* Sayly Extension.appex */,
+				C6200CCE3095CADD00433F67 /* Sayly Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6200CA83095CADD00433F67 /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				C6200CA93095CADD00433F67 /* AppDelegate.swift */,
+				C6200CAB3095CADD00433F67 /* SceneDelegate.swift */,
+				C6200CAD3095CADD00433F67 /* LaunchScreen.storyboard */,
+				C6200CB03095CADD00433F67 /* Main.storyboard */,
+				C6200CB33095CADD00433F67 /* Info.plist */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		C6200CB93095CADD00433F67 /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				C6200CBA3095CADD00433F67 /* AppDelegate.swift */,
+				C6200CBC3095CADD00433F67 /* Main.storyboard */,
+				C6200CBF3095CADD00433F67 /* Info.plist */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		C6200CC83095CADD00433F67 /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				C6200CC93095CADD00433F67 /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		C6200CD23095CADD00433F67 /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				C6200CD33095CADD00433F67 /* Info.plist */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		C6200CF23095CADD00433F67 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C6200CF33095CADD00433F67 /* cmudict-ipa.txt */,
+				C6200CF43095CADD00433F67 /* popup.js */,
+				C6200CF53095CADD00433F67 /* offscreen.html */,
+				C6200CF63095CADD00433F67 /* background.js */,
+				C6200CF73095CADD00433F67 /* popup.html */,
+				C6200CF83095CADD00433F67 /* options.js */,
+				C6200CF93095CADD00433F67 /* CMUDICT-LICENSE.txt */,
+				C6200CFA3095CADD00433F67 /* icons */,
+				C6200CFB3095CADD00433F67 /* manifest.json */,
+				C6200CFC3095CADD00433F67 /* offscreen.js */,
+				C6200CFD3095CADD00433F67 /* options.html */,
+				C6200CFE3095CADD00433F67 /* popup.css */,
+				C6200CFF3095CADD00433F67 /* content.js */,
+				C6200D003095CADD00433F67 /* assets */,
+				C6200D013095CADD00433F67 /* options.css */,
+				C6200D023095CADD00433F67 /* content-popup.css */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C6200CA53095CADD00433F67 /* Sayly (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6200CE83095CADD00433F67 /* Build configuration list for PBXNativeTarget "Sayly (iOS)" */;
+			buildPhases = (
+				C6200CA23095CADD00433F67 /* Sources */,
+				C6200CA33095CADD00433F67 /* Frameworks */,
+				C6200CA43095CADD00433F67 /* Resources */,
+				C6200CE73095CADD00433F67 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C6200CC73095CADD00433F67 /* PBXTargetDependency */,
+			);
+			name = "Sayly (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "Sayly (iOS)";
+			productReference = C6200CA63095CADD00433F67 /* Sayly.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C6200CB73095CADD00433F67 /* Sayly (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6200CEF3095CADD00433F67 /* Build configuration list for PBXNativeTarget "Sayly (macOS)" */;
+			buildPhases = (
+				C6200CB43095CADD00433F67 /* Sources */,
+				C6200CB53095CADD00433F67 /* Frameworks */,
+				C6200CB63095CADD00433F67 /* Resources */,
+				C6200CEE3095CADD00433F67 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C6200CD13095CADD00433F67 /* PBXTargetDependency */,
+			);
+			name = "Sayly (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "Sayly (macOS)";
+			productReference = C6200CB83095CADD00433F67 /* Sayly.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C6200CC33095CADD00433F67 /* Sayly Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6200CE43095CADD00433F67 /* Build configuration list for PBXNativeTarget "Sayly Extension (iOS)" */;
+			buildPhases = (
+				C6200CC03095CADD00433F67 /* Sources */,
+				C6200CC13095CADD00433F67 /* Frameworks */,
+				C6200CC23095CADD00433F67 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Sayly Extension (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "Sayly Extension (iOS)";
+			productReference = C6200CC43095CADD00433F67 /* Sayly Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C6200CCD3095CADD00433F67 /* Sayly Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6200CEB3095CADD00433F67 /* Build configuration list for PBXNativeTarget "Sayly Extension (macOS)" */;
+			buildPhases = (
+				C6200CCA3095CADD00433F67 /* Sources */,
+				C6200CCB3095CADD00433F67 /* Frameworks */,
+				C6200CCC3095CADD00433F67 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Sayly Extension (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "Sayly Extension (macOS)";
+			productReference = C6200CCE3095CADD00433F67 /* Sayly Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C6200C933095CADC00433F67 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2620;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					C6200CA53095CADD00433F67 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					C6200CB73095CADD00433F67 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					C6200CC33095CADD00433F67 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					C6200CCD3095CADD00433F67 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+				};
+			};
+			buildConfigurationList = C6200C963095CADC00433F67 /* Build configuration list for PBXProject "Sayly" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C6200C923095CADC00433F67;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C6200CA73095CADD00433F67 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C6200CA53095CADD00433F67 /* Sayly (iOS) */,
+				C6200CB73095CADD00433F67 /* Sayly (macOS) */,
+				C6200CC33095CADD00433F67 /* Sayly Extension (iOS) */,
+				C6200CCD3095CADD00433F67 /* Sayly Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C6200CA43095CADD00433F67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6200CD63095CADD00433F67 /* Icon.png in Resources */,
+				C6200CAF3095CADD00433F67 /* LaunchScreen.storyboard in Resources */,
+				C6200CD43095CADD00433F67 /* Main.html in Resources */,
+				C6200CDA3095CADD00433F67 /* Script.js in Resources */,
+				C6200CDE3095CADD00433F67 /* Assets.xcassets in Resources */,
+				C6200CB23095CADD00433F67 /* Main.storyboard in Resources */,
+				C6200CD83095CADD00433F67 /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CB63095CADD00433F67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6200CD73095CADD00433F67 /* Icon.png in Resources */,
+				C6200CD93095CADD00433F67 /* Style.css in Resources */,
+				C6200CBE3095CADD00433F67 /* Main.storyboard in Resources */,
+				C6200CDB3095CADD00433F67 /* Script.js in Resources */,
+				C6200CDF3095CADD00433F67 /* Assets.xcassets in Resources */,
+				C6200CD53095CADD00433F67 /* Main.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CC23095CADD00433F67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6200D163095CADD00433F67 /* background.js in Resources */,
+				C6200D1A3095CADD00433F67 /* icons in Resources */,
+				C6200D213095CADD00433F67 /* options.css in Resources */,
+				C6200D183095CADD00433F67 /* options.js in Resources */,
+				C6200D223095CADD00433F67 /* content-popup.css in Resources */,
+				C6200D193095CADD00433F67 /* CMUDICT-LICENSE.txt in Resources */,
+				C6200D1F3095CADD00433F67 /* content.js in Resources */,
+				C6200D1D3095CADD00433F67 /* options.html in Resources */,
+				C6200D1B3095CADD00433F67 /* manifest.json in Resources */,
+				C6200D173095CADD00433F67 /* popup.html in Resources */,
+				C6200D1C3095CADD00433F67 /* offscreen.js in Resources */,
+				C6200D203095CADD00433F67 /* assets in Resources */,
+				C6200D1E3095CADD00433F67 /* popup.css in Resources */,
+				C6200D133095CADD00433F67 /* cmudict-ipa.txt in Resources */,
+				C6200D153095CADD00433F67 /* offscreen.html in Resources */,
+				C6200D143095CADD00433F67 /* popup.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CCC3095CADD00433F67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6200D063095CADD00433F67 /* background.js in Resources */,
+				C6200D0A3095CADD00433F67 /* icons in Resources */,
+				C6200D113095CADD00433F67 /* options.css in Resources */,
+				C6200D083095CADD00433F67 /* options.js in Resources */,
+				C6200D123095CADD00433F67 /* content-popup.css in Resources */,
+				C6200D093095CADD00433F67 /* CMUDICT-LICENSE.txt in Resources */,
+				C6200D0F3095CADD00433F67 /* content.js in Resources */,
+				C6200D0D3095CADD00433F67 /* options.html in Resources */,
+				C6200D0B3095CADD00433F67 /* manifest.json in Resources */,
+				C6200D073095CADD00433F67 /* popup.html in Resources */,
+				C6200D0C3095CADD00433F67 /* offscreen.js in Resources */,
+				C6200D103095CADD00433F67 /* assets in Resources */,
+				C6200D0E3095CADD00433F67 /* popup.css in Resources */,
+				C6200D033095CADD00433F67 /* cmudict-ipa.txt in Resources */,
+				C6200D053095CADD00433F67 /* offscreen.html in Resources */,
+				C6200D043095CADD00433F67 /* popup.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C6200CA23095CADD00433F67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6200CDC3095CADD00433F67 /* ViewController.swift in Sources */,
+				C6200CAA3095CADD00433F67 /* AppDelegate.swift in Sources */,
+				C6200CAC3095CADD00433F67 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CB43095CADD00433F67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6200CDD3095CADD00433F67 /* ViewController.swift in Sources */,
+				C6200CBB3095CADD00433F67 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CC03095CADD00433F67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6200CE03095CADD00433F67 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6200CCA3095CADD00433F67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6200CE13095CADD00433F67 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C6200CC73095CADD00433F67 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6200CC33095CADD00433F67 /* Sayly Extension (iOS) */;
+			targetProxy = C6200CC63095CADD00433F67 /* PBXContainerItemProxy */;
+		};
+		C6200CD13095CADD00433F67 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6200CCD3095CADD00433F67 /* Sayly Extension (macOS) */;
+			targetProxy = C6200CD03095CADD00433F67 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C6200C993095CADC00433F67 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C6200C9A3095CADC00433F67 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		C6200CAD3095CADD00433F67 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C6200CAE3095CADD00433F67 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		C6200CB03095CADD00433F67 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C6200CB13095CADD00433F67 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C6200CBC3095CADD00433F67 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C6200CBD3095CADD00433F67 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C6200CE23095CADD00433F67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C6200CE33095CADD00433F67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		C6200CE53095CADD00433F67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J745PBN765;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Sayly Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.cs-tungthanh.sayly.Extension";
+				PRODUCT_NAME = "Sayly Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C6200CE63095CADD00433F67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J745PBN765;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Sayly Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.cs-tungthanh.sayly.Extension";
+				PRODUCT_NAME = "Sayly Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C6200CE93095CADD00433F67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J745PBN765;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Sayly;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.cs-tungthanh.sayly";
+				PRODUCT_NAME = Sayly;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C6200CEA3095CADD00433F67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J745PBN765;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Sayly;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.cs-tungthanh.sayly";
+				PRODUCT_NAME = Sayly;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C6200CEC3095CADD00433F67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J745PBN765;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Sayly Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.cs-tungthanh.sayly.Extension";
+				PRODUCT_NAME = "Sayly Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C6200CED3095CADD00433F67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J745PBN765;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Sayly Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.cs-tungthanh.sayly.Extension";
+				PRODUCT_NAME = "Sayly Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C6200CF03095CADD00433F67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J745PBN765;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Sayly;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.cs-tungthanh.sayly";
+				PRODUCT_NAME = Sayly;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C6200CF13095CADD00433F67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J745PBN765;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Sayly;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "io.github.cs-tungthanh.sayly";
+				PRODUCT_NAME = Sayly;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C6200C963095CADC00433F67 /* Build configuration list for PBXProject "Sayly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6200CE23095CADD00433F67 /* Debug */,
+				C6200CE33095CADD00433F67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6200CE43095CADD00433F67 /* Build configuration list for PBXNativeTarget "Sayly Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6200CE53095CADD00433F67 /* Debug */,
+				C6200CE63095CADD00433F67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6200CE83095CADD00433F67 /* Build configuration list for PBXNativeTarget "Sayly (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6200CE93095CADD00433F67 /* Debug */,
+				C6200CEA3095CADD00433F67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6200CEB3095CADD00433F67 /* Build configuration list for PBXNativeTarget "Sayly Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6200CEC3095CADD00433F67 /* Debug */,
+				C6200CED3095CADD00433F67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6200CEF3095CADD00433F67 /* Build configuration list for PBXNativeTarget "Sayly (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6200CF03095CADD00433F67 /* Debug */,
+				C6200CF13095CADD00433F67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C6200C933095CADC00433F67 /* Project object */;
+}
