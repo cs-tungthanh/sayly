@@ -4,6 +4,7 @@
  */
 
 import { translate } from '../api/translate-api';
+import { translateWithGemini } from '../api/gemini-api';
 import { lookupWordIpa } from '../api/dictionary-api';
 import { buildGoogleTtsUrls } from '../api/google-tts';
 import { getTtsAudio, getCachedTtsAudio } from '../speech/tts-audio-cache';
@@ -107,6 +108,16 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         sendResponse({ error: error instanceof Error ? error.message : String(error) });
       });
     return true; // Keep message channel open for the async response
+  }
+
+  if (message.action === MESSAGE_ACTIONS.TRANSLATE_GEMINI) {
+    translateWithGemini(message.text)
+      .then(text => sendResponse({ text }))
+      .catch(error => {
+        console.error(`${LOG_PREFIX} Gemini translation failed:`, error);
+        sendResponse({ error: error instanceof Error ? error.message : String(error) });
+      });
+    return true;
   }
 
   if (message.action === TTS_MESSAGES.SPEAK) {

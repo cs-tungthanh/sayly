@@ -23,6 +23,13 @@ export const AUTO_DETECT_LANG = 'auto';
 export const VIETNAMESE_LANG = 'vi';
 export const DICTIONARY_MAX_MEANINGS = 5;
 export const TRANSLATION_OFF = 'off';
+
+// Gemini: the text as natural spoken English, made only when the popup's Gemini button is clicked.
+// Uses the user's own API key from the options page
+export const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
+export const GEMINI_MODEL = 'gemini-3.5-flash-lite';
+export const GEMINI_MAX_OUTPUT_TOKENS = 4096;
+export const GEMINI_API_KEY_URL = 'https://aistudio.google.com/apikey';
 export const DEFAULT_TARGET_LANGUAGE = 'vi';
 
 // What happens when text is selected
@@ -113,6 +120,7 @@ export const OFFSCREEN_DOCUMENT_PATH = 'offscreen.html';
 export const MESSAGE_ACTIONS = {
   // Content script → background
   TRANSLATE: 'translate',
+  TRANSLATE_GEMINI: 'translate-gemini',
   LOOKUP_IPA: 'lookup-ipa',
   // Content scripts can't open the options page themselves
   OPEN_OPTIONS: 'open-options',
@@ -158,7 +166,7 @@ export const PREFERRED_VOICE_LANG = 'en-US';
 // The browser voice's slow repeat plays at this fraction of the chosen speed
 export const SLOW_SPEECH_RATE = 0.7;
 // Speech speed choices (playback rate; applies to Google's voice and browser voices)
-export const SPEECH_SPEEDS = [0.5, 0.75, 1, 1.25, 1.5] as const;
+export const SPEECH_SPEEDS = [0.5, 1, 1.15, 1.2, 1.25, 1.5] as const;
 export const DEFAULT_SPEECH_SPEED = 1;
 // The Voice setting: automatic, Google's voice, or a browser voice's voiceURI
 export const AUTO_VOICE = 'auto';

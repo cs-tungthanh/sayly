@@ -2,7 +2,7 @@
  * Open the pronunciation popup for some text: the selection popup and the YouTube caption hover share it
  */
 
-import { requestTranslation } from '../api/translation-client';
+import { requestTranslation, isGeminiAvailable } from '../api/translation-client';
 import { createPopup } from './popup-builder';
 import { popupManager, type PopupRemoveListener } from './popup-manager';
 import { getShowCopyButton, getTheme, isDarkTheme } from '../shared/utils';
@@ -18,11 +18,13 @@ const readTheme = cachedSetting('theme', getTheme);
 export interface PopupLook {
   showCopy: boolean;
   dark: boolean;
+  /** A Gemini API key is set and translation is on */
+  gemini: boolean;
 }
 
 export async function readPopupLook(): Promise<PopupLook> {
-  const [showCopy, theme] = await Promise.all([readShowCopyButton(), readTheme()]);
-  return { showCopy, dark: isDarkTheme(theme) };
+  const [showCopy, theme, gemini] = await Promise.all([readShowCopyButton(), readTheme(), isGeminiAvailable()]);
+  return { showCopy, dark: isDarkTheme(theme), gemini };
 }
 
 /**
@@ -35,7 +37,7 @@ export function openTextPopup(
   look: PopupLook,
   onRemove?: PopupRemoveListener
 ): HTMLElement {
-  const popup = createPopup(text, () => popupManager.removePopup(), look.showCopy);
+  const popup = createPopup(text, () => popupManager.removePopup(), look.showCopy, look.gemini);
   popup.element.classList.toggle(DARK_THEME_CSS_CLASS, look.dark);
   popupManager.showPopup(popup.element, position, onRemove);
 

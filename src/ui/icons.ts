@@ -2,7 +2,7 @@
  * Lucide SVG icons for popup buttons (only the icons imported here are bundled)
  */
 
-import { createElement, AudioLines, BookOpen, Check, Copy, GripHorizontal, Minus, Plus, Square, Volume2, X } from 'lucide';
+import { createElement, AudioLines, BookOpen, Check, Copy, GripHorizontal, Minus, Plus, Sparkles, Square, Volume2, X } from 'lucide';
 import type { IconNode } from 'lucide';
 
 export const ICONS = {
@@ -15,7 +15,8 @@ export const ICONS = {
   COPY: Copy,
   COPIED: Check,
   LESS: Minus,
-  MORE: Plus
+  MORE: Plus,
+  GEMINI: Sparkles
 } as const;
 
 /**

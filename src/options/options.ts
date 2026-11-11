@@ -10,6 +10,8 @@ import {
   removeSite,
   getTargetLanguage,
   saveTargetLanguage,
+  getGeminiApiKey,
+  saveGeminiApiKey,
   getPopupMode,
   savePopupMode,
   getDictionarySite,
@@ -63,7 +65,8 @@ import {
   VOICE_SAMPLE_TEXT,
   YOUTUBE_SUBTITLE_MIN_LINES,
   YOUTUBE_SUBTITLE_MAX_LINES,
-  YouTubeShortcutMode
+  YouTubeShortcutMode,
+  GEMINI_API_KEY_URL
 } from '../constants/app-constants';
 
 /**
@@ -75,6 +78,8 @@ interface OptionsElements {
   toggleLabel: HTMLElement | null;
   disabledSitesList: HTMLElement | null;
   targetLanguage: HTMLSelectElement | null;
+  geminiApiKey: HTMLInputElement | null;
+  geminiApiKeyLink: HTMLAnchorElement | null;
   popupMode: HTMLSelectElement | null;
   dictionarySite: HTMLSelectElement | null;
   showCopyButton: HTMLInputElement | null;
@@ -103,6 +108,8 @@ function getOptionsElements(): OptionsElements {
     toggleLabel: getOptionalElement<HTMLElement>('toggleLabel'),
     disabledSitesList: getOptionalElement<HTMLElement>('disabledSitesList'),
     targetLanguage: getOptionalElement<HTMLSelectElement>('targetLanguage'),
+    geminiApiKey: getOptionalElement<HTMLInputElement>('geminiApiKey'),
+    geminiApiKeyLink: getOptionalElement<HTMLAnchorElement>('geminiApiKeyLink'),
     popupMode: getOptionalElement<HTMLSelectElement>('popupMode'),
     dictionarySite: getOptionalElement<HTMLSelectElement>('dictionarySite'),
     showCopyButton: getOptionalElement<HTMLInputElement>('showCopyButton'),
@@ -185,6 +192,22 @@ async function renderTheme(elements: OptionsElements): Promise<void> {
     applyPageTheme(theme);
     saveTheme(theme);
   });
+}
+
+/**
+ * Render the Gemini API key field; saved when it changes, and an empty field removes the key
+ */
+async function renderGeminiApiKey(elements: OptionsElements): Promise<void> {
+  if (elements.geminiApiKeyLink) elements.geminiApiKeyLink.href = GEMINI_API_KEY_URL;
+
+  const input = elements.geminiApiKey;
+  if (!input) {
+    return;
+  }
+
+  input.value = await getGeminiApiKey();
+  // Saved on every edit: a pasted key is kept even if the tab is closed without leaving the field
+  input.addEventListener('input', () => saveGeminiApiKey(input.value));
 }
 
 /**
@@ -536,6 +559,7 @@ async function initOptions(): Promise<void> {
     renderVoice(elements),
     renderSpeechSpeed(elements),
     renderTargetLanguage(elements),
+    renderGeminiApiKey(elements),
     renderYouTubeSeekSeconds(elements),
     renderYouTubeShortcutsEnabled(elements),
     renderYouTubeAutoLoadCaptions(elements),

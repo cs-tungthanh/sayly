@@ -272,6 +272,17 @@ input:disabled + .slider {
   color: var(--heading);
 }
 
+.setting-text {
+  flex: 1;
+  max-width: 300px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--heading);
+}
+
 .setting-number {
   width: 80px;
   padding: 8px 12px;

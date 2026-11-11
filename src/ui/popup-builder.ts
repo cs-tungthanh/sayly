@@ -3,6 +3,7 @@
  */
 
 import { requestWordIpa } from '../api/ipa-client';
+import { requestGeminiTranslation } from '../api/translation-client';
 import type { DictionaryEntry, TranslationResult } from '../api/translate-api';
 import {
   POPUP_CSS_CLASS,
@@ -38,8 +39,14 @@ export interface PronunciationPopup {
 /**
  * Create the popup element with a loading placeholder for the translation
  * @param showCopy Whether to show the copy button (word + IPA, or text + translation)
+ * @param showGemini Whether to offer the Gemini button, which translates only when clicked
  */
-export function createPopup(text: string, onClose: () => void, showCopy: boolean): PronunciationPopup {
+export function createPopup(
+  text: string,
+  onClose: () => void,
+  showCopy: boolean,
+  showGemini: boolean
+): PronunciationPopup {
   const popup = document.createElement('div');
   popup.className = POPUP_CSS_CLASS;
 
@@ -116,6 +123,7 @@ export function createPopup(text: string, onClose: () => void, showCopy: boolean
   // Placeholder keeps the layout stable while the translation is in flight
   const translationSlot = createSkeleton('elang-popup-skeleton-translation');
   contentWrapper.appendChild(translationSlot);
+  if (showGemini) contentWrapper.appendChild(createGeminiSection(text));
 
   return {
     element: popup,
@@ -470,6 +478,61 @@ function createTranslationDisplay(translation: TranslationResult): HTMLElement {
   }
 
   return translationDiv;
+}
+
+/**
+ * Create the Gemini button; clicking it asks Gemini for a natural, spoken translation and shows it
+ * in the button's place. On failure the reason shows above the button, so it can be tried again.
+ */
+function createGeminiSection(text: string): HTMLElement {
+  const section = document.createElement('div');
+  section.className = 'elang-popup-gemini';
+
+  const button = document.createElement('button');
+  button.className = 'elang-gemini-button';
+  button.title = UI_LABELS.GEMINI_TOOLTIP;
+  const label = document.createElement('span');
+  label.textContent = UI_LABELS.GEMINI_BUTTON;
+  button.append(createIcon(ICONS.GEMINI, 14), label);
+
+  button.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    section.replaceChildren(createSkeleton('elang-popup-skeleton-translation'));
+
+    const result = await requestGeminiTranslation(text);
+    // The popup may have closed while Gemini was answering
+    if (!section.isConnected) return;
+
+    if ('text' in result) {
+      section.replaceChildren(createGeminiResult(result.text));
+    } else {
+      const error = document.createElement('div');
+      error.className = 'elang-popup-gemini-error';
+      error.textContent = `${UI_LABELS.GEMINI_FAILED}: ${result.error}`;
+      section.replaceChildren(error, button);
+    }
+  });
+
+  section.appendChild(button);
+  return section;
+}
+
+/**
+ * Show Gemini's translation like the regular one, marked as coming from Gemini
+ */
+function createGeminiResult(translated: string): HTMLElement {
+  const result = document.createElement('div');
+  result.className = 'elang-popup-translation elang-popup-gemini-result';
+
+  const source = document.createElement('div');
+  source.className = 'elang-popup-gemini-label';
+  source.append(createIcon(ICONS.GEMINI, 12), UI_LABELS.GEMINI_LABEL);
+
+  const body = document.createElement('div');
+  body.textContent = translated;
+
+  result.append(source, body);
+  return result;
 }
 
 /**

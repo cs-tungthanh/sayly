@@ -18,7 +18,7 @@ export const ERROR_MESSAGES = {
 } as const;
 
 export const UI_LABELS = {
-  PLAY_TOOLTIP: 'Hear the whole selection',
+  PLAY_TOOLTIP: 'Read out loud',
   STOP_TOOLTIP: 'Stop',
   ENABLED: 'Enabled',
   DISABLED: 'Disabled',
@@ -36,6 +36,10 @@ export const UI_LABELS = {
   COPY_TOOLTIP: 'Copy',
   COPIED: 'Copied',
   COPY_FAILED: "Couldn't copy",
+  GEMINI_BUTTON: 'Say it naturally',
+  GEMINI_TOOLTIP: 'Ask Gemini how a native speaker would say this in English',
+  GEMINI_LABEL: 'Gemini',
+  GEMINI_FAILED: "Gemini couldn't translate this",
   POPUP_MODE_IMMEDIATE: 'Immediately display',
   POPUP_MODE_ICON: 'Display icon',
   POPUP_MODE_NONE: "Don't display",

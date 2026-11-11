@@ -187,6 +187,36 @@ export async function saveTargetLanguage(language: string): Promise<void> {
 }
 
 /**
+ * Get the user's Gemini API key
+ * @returns The key, or an empty string when none is set
+ */
+export async function getGeminiApiKey(): Promise<string> {
+  try {
+    const { geminiApiKey } = await chrome.storage.local.get('geminiApiKey');
+    return typeof geminiApiKey === 'string' ? geminiApiKey : '';
+  } catch (error) {
+    console.error(`${LOG_PREFIX} Failed to read storage:`, error);
+    return '';
+  }
+}
+
+/**
+ * Save the user's Gemini API key; an empty key removes it, which hides the popup's Gemini button
+ */
+export async function saveGeminiApiKey(key: string): Promise<void> {
+  try {
+    const trimmed = key.trim();
+    if (trimmed) {
+      await chrome.storage.local.set({ geminiApiKey: trimmed });
+    } else {
+      await chrome.storage.local.remove('geminiApiKey');
+    }
+  } catch (error) {
+    console.error(`${LOG_PREFIX} Failed to save to storage:`, error);
+  }
+}
+
+/**
  * Get what happens when text is selected
  * @returns The stored popup mode, or the default when unset or unknown
  */

@@ -65,6 +65,11 @@
           <select id="targetLanguage" class="setting-select"></select>
         </label>
         <p class="note">Selected text is sent to Google Translate (or MyMemory as a fallback) when translation is on</p>
+        <label class="setting-field">
+          <span>Gemini API key</span>
+          <input type="password" id="geminiApiKey" class="setting-text" autocomplete="off" spellcheck="false" placeholder="Paste your key" aria-describedby="geminiApiKeyHint">
+        </label>
+        <p class="note" id="geminiApiKeyHint">With a key, the popup shows a "Say it naturally" button. Clicking it sends the selected text to Google's Gemini API and shows how a native speaker would say it out loud in English, whatever language you selected. Nothing is sent until you click. <a id="geminiApiKeyLink" target="_blank" rel="noopener noreferrer">Get a free key from Google AI Studio</a>. The key stays in this browser</p>
       </section>
 
       <section class="youtube-section">

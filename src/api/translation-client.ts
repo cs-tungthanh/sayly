@@ -5,10 +5,34 @@
 import type { TranslationResult } from './translate-api';
 import { TRANSLATION_OFF, MESSAGE_ACTIONS } from '../constants/app-constants';
 import { LOG_PREFIX } from '../constants/messages';
-import { getTargetLanguage } from '../shared/utils';
+import { getTargetLanguage, getGeminiApiKey } from '../shared/utils';
 import { cachedSetting } from '../shared/settings-cache';
 
 const readTargetLanguage = cachedSetting('targetLanguage', getTargetLanguage);
+const readGeminiApiKey = cachedSetting('geminiApiKey', getGeminiApiKey);
+
+/** Gemini's answer: the translation, or why there is none */
+export type GeminiTranslation = { text: string } | { error: string };
+
+/**
+ * Whether the popup offers Gemini: the user has saved an API key
+ */
+export async function isGeminiAvailable(): Promise<boolean> {
+  return (await readGeminiApiKey()) !== '';
+}
+
+/**
+ * Ask Gemini how a native speaker would say the text out loud in English
+ */
+export async function requestGeminiTranslation(text: string): Promise<GeminiTranslation> {
+  try {
+    const response = await chrome.runtime.sendMessage({ action: MESSAGE_ACTIONS.TRANSLATE_GEMINI, text });
+    if (typeof response?.text === 'string') return { text: response.text };
+    return { error: response?.error || 'No response' };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : String(error) };
+  }
+}
 
 /**
  * Translate text into the user's target language

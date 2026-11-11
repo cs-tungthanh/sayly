@@ -18,6 +18,7 @@ Sayly is a browser extension for English learners. Highlight a word, a sentence 
 - **Hear it** – play the whole selection or a single word, at 0.5× to 1.5× speed
 - **IPA for every word** – American English transcriptions from the bundled CMU Pronouncing Dictionary (~126,000 words), so most lookups never leave your browser
 - **Translate** – into 34 languages (Vietnamese by default), with meanings by part of speech when you select a single word
+- **Say it naturally (Gemini)** – add your own Gemini API key in settings and a button in the popup shows how a native speaker would say the selection out loud in English (translating it first if it is in another language); it only calls Gemini when you click it
 - **Dictionary link** – open a word on Dictionary.com or Cambridge Dictionary
 - **Copy** – one click copies a word with its IPA, or a selection with its translation
 - **Your choice of trigger** – open the popup as soon as you select, show a small icon to click first, or turn it off
@@ -69,6 +70,7 @@ Sayly collects no data and has no analytics. Pronunciation and IPA work locally 
 
 - Words missing from the dictionary go to the [Free Dictionary API](https://dictionaryapi.dev/).
 - Translated text goes to Google Translate, or MyMemory if Google fails. Set translation to **Off** to stop this.
+- If you add a Gemini API key, the selected text goes to Google's Gemini API only when you click **Say it naturally**.
 - Spoken text goes to Google's text-to-speech; if that fails, the browser's built-in voice is used.
 
 See [PRIVACY.md](PRIVACY.md) for the full policy.

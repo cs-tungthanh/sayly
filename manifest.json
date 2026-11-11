@@ -13,7 +13,8 @@
   "host_permissions": [
     "https://translate.googleapis.com/*",
     "https://translate.google.com/*",
-    "https://api.mymemory.translated.net/*"
+    "https://api.mymemory.translated.net/*",
+    "https://generativelanguage.googleapis.com/*"
   ],
   "background": {
     "service_worker": "background.js",

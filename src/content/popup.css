@@ -395,6 +395,59 @@
   }
 }
 
+/* Gemini: a button under the translation; Gemini's natural, spoken version replaces it when clicked */
+.elang-popup-gemini {
+  margin-bottom: 8px;
+}
+
+.elang-popup-gemini .elang-popup-translation,
+.elang-popup-gemini .elang-popup-skeleton {
+  margin-bottom: 0;
+}
+
+.elang-gemini-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 999px;
+  background: var(--elang-accent-soft);
+  color: var(--elang-accent);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.elang-gemini-button:hover {
+  background: var(--elang-accent-strong-soft);
+}
+
+.elang-gemini-button:focus-visible {
+  outline: 2px solid var(--elang-accent-ring);
+  outline-offset: 1px;
+}
+
+.elang-popup-gemini-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--elang-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.elang-popup-gemini-error {
+  font-size: 12px;
+  color: var(--elang-warning);
+  margin-bottom: 6px;
+  overflow-wrap: anywhere;
+}
+
 .elang-popup-warning {
   font-size: 12px;
   color: var(--elang-warning);
