@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Sayly - Pronunciation, IPA & Translate",
   "short_name": "Sayly",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Select text to hear English pronunciation and see IPA notation",
   "permissions": [
     "activeTab",
