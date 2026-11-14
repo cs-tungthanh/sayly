@@ -157,6 +157,15 @@ export const TOUCH_SELECTION_DELAY_MS = 500;
 export const TOUCH_MENU_CLEARANCE_PX = 90;
 // How long the copy button shows its done state
 export const COPY_FEEDBACK_MS = 1200;
+
+// Longest a closing popup's fade can take before it is removed anyway (the fade itself is 120 ms)
+export const POPUP_LEAVE_FALLBACK_MS = 200;
+
+// Longest that content arriving late may spend easing the popup to its new height
+export const REVEAL_HEIGHT_MS = 260;
+// Gemini's answer appears word by word; later words wait this much longer, up to the cap
+export const GEMINI_WORD_STAGGER_MS = 40;
+export const GEMINI_WORD_STAGGER_CAP_MS = 600;
 // A press that moves less than this is a click, not a drag that selects text
 export const CLICK_MAX_MOVE_PX = 4;
 export const POPUP_POSITION_OFFSET_PX = 10;

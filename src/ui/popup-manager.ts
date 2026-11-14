@@ -6,7 +6,8 @@ import {
   POPUP_CSS_CLASS,
   TRIGGER_CSS_CLASS,
   POPUP_POSITION_OFFSET_PX,
-  POPUP_EDGE_MARGIN_PX
+  POPUP_EDGE_MARGIN_PX,
+  POPUP_LEAVE_FALLBACK_MS
 } from '../constants/app-constants';
 import { speechService } from '../speech/speech-service';
 
@@ -31,6 +32,19 @@ export function stopPlayerEvents(element: HTMLElement): void {
 function getPopupContainer(): HTMLElement {
   const fullscreen = document.fullscreenElement;
   return fullscreen instanceof HTMLElement && !fullscreen.contains(document.body) ? fullscreen : document.body;
+}
+
+/**
+ * Fade an element out, then remove it; the timer covers a fade that never reports its end
+ */
+function fadeOutAndRemove(element: HTMLElement): void {
+  element.classList.add('elang-popup-leave');
+  const remove = () => element.remove();
+  // Animations inside the popup report their end here too; only the popup's own fade counts
+  element.addEventListener('animationend', (event) => {
+    if (event.target === element) remove();
+  });
+  setTimeout(remove, POPUP_LEAVE_FALLBACK_MS);
 }
 
 /**
@@ -88,6 +102,13 @@ class PopupManager {
 
     popup.style.left = `${left}px`;
     popup.style.top = `${top}px`;
+
+    // Grow out of the selection: from its side horizontally, from the edge nearest it vertically
+    const above = top < anchorY;
+    const originX = Math.max(0, Math.min(position.x - left, popupRect.width));
+    popup.style.setProperty('--elang-origin', `${originX}px ${above ? '100%' : '0'}`);
+    popup.classList.toggle('elang-popup-above', above);
+    popup.classList.add('elang-popup-enter');
   }
 
   /**
@@ -114,7 +135,12 @@ class PopupManager {
 
   private close(replaced: boolean): void {
     if (this.currentPopup) {
-      this.currentPopup.remove();
+      // A replaced popup goes at once, so it never overlaps the new one; a dismissed one fades out
+      if (replaced) {
+        this.currentPopup.remove();
+      } else {
+        fadeOutAndRemove(this.currentPopup);
+      }
       this.currentPopup = null;
     }
 

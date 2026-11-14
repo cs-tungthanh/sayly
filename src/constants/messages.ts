@@ -38,6 +38,7 @@ export const UI_LABELS = {
   COPIED: 'Copied',
   COPY_FAILED: "Couldn't copy",
   GEMINI_BUTTON: 'Say it naturally',
+  GEMINI_THINKING: 'Thinking…',
   GEMINI_TOOLTIP: 'Ask Gemini how a native speaker would say this in English',
   GEMINI_LABEL: 'Gemini',
   GEMINI_FAILED: "Gemini couldn't translate this",

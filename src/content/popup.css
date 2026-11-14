@@ -27,6 +27,14 @@
   --elang-skeleton: #eef1f5;
   --elang-skeleton-shine: #f6f8fa;
   --elang-shadow: rgba(0, 0, 0, 0.15);
+  --elang-edge: rgba(0, 0, 0, 0.08);
+  --elang-success-soft: #e6f4ea;
+  /* Motion: a few speeds and curves shared by every animation */
+  --elang-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --elang-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --elang-dur-fast: 120ms;
+  --elang-dur-base: 180ms;
+  --elang-dur-slow: 260ms;
   color-scheme: light;
 }
 
@@ -57,6 +65,8 @@
   --elang-skeleton: #2a2b2e;
   --elang-skeleton-shine: #35363a;
   --elang-shadow: rgba(0, 0, 0, 0.5);
+  --elang-edge: rgba(255, 255, 255, 0.08);
+  --elang-success-soft: #1f3326;
   color-scheme: dark;
 }
 
@@ -66,7 +76,8 @@
   background: var(--elang-surface);
   color: var(--elang-text);
   border-radius: 8px;
-  box-shadow: 0 4px 12px var(--elang-shadow);
+  /* A hairline edge, a close soft shadow and a wide one, so it stands apart on busy pages */
+  box-shadow: 0 0 0 1px var(--elang-edge), 0 2px 4px rgba(0, 0, 0, 0.06), 0 12px 28px -6px var(--elang-shadow);
   padding: 0;
   min-width: 200px;
   max-width: 500px;
@@ -189,7 +200,7 @@
   border: 1px solid var(--elang-border);
   border-radius: 16px;
   background: var(--elang-surface);
-  box-shadow: 0 2px 6px var(--elang-shadow);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 6px 16px -4px var(--elang-shadow);
 }
 
 .elang-trigger-button {
@@ -206,6 +217,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition:
+    background var(--elang-dur-fast),
+    color var(--elang-dur-fast),
+    transform var(--elang-dur-fast) var(--elang-ease-out);
 }
 
 .elang-trigger-button:hover {
@@ -213,9 +228,30 @@
 }
 
 /* A copy button that just copied */
+/* A copy button that just copied: it turns green, pops and draws its check mark */
 .elang-trigger-button.elang-copy-done,
 .elang-play-button.elang-copy-done {
   color: var(--elang-success);
+  background: var(--elang-success-soft);
+  animation: elang-pop var(--elang-dur-slow) var(--elang-ease-spring);
+}
+
+.elang-copy-done .elang-icon * {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: elang-draw 260ms 60ms var(--elang-ease-out) forwards;
+}
+
+@keyframes elang-pop {
+  from {
+    transform: scale(0.8);
+  }
+}
+
+@keyframes elang-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 /* Lucide SVG icons; clicks go to the button, not the svg */
@@ -257,7 +293,10 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  transition: all 0.2s;
+  transition:
+    background var(--elang-dur-base),
+    color var(--elang-dur-base),
+    transform var(--elang-dur-fast) var(--elang-ease-out);
 }
 
 .elang-popup-close-button:hover {
@@ -267,7 +306,8 @@
 }
 
 .elang-popup-close-button:active {
-  transform: scale(0.95);
+  transform: scale(0.9);
+  transition-duration: 60ms;
 }
 
 .elang-popup-drag-handle:hover {
@@ -567,19 +607,72 @@
   align-items: center;
   gap: 6px;
   margin: 0;
-  padding: 4px 10px;
-  border: none;
+  padding: 3px 9px;
   border-radius: 999px;
-  background: var(--elang-accent-soft);
   color: var(--elang-accent);
   font: inherit;
   font-size: 13px;
   line-height: 1.4;
   cursor: pointer;
+  /* A thin Gemini-colored border: the fill paints the padding box, the gradient shows in the border */
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--elang-accent-soft), var(--elang-accent-soft)) padding-box,
+    linear-gradient(110deg, #4285f4, #9b72cb, #d96570, #4285f4) border-box;
+  background-size: 100% 100%, 300% 100%;
+  transition: transform var(--elang-dur-fast) var(--elang-ease-out);
 }
 
 .elang-gemini-button:hover {
-  background: var(--elang-accent-strong-soft);
+  background:
+    linear-gradient(var(--elang-accent-strong-soft), var(--elang-accent-strong-soft)) padding-box,
+    linear-gradient(110deg, #4285f4, #9b72cb, #d96570, #4285f4) border-box;
+  background-size: 100% 100%, 300% 100%;
+  transform: translateY(-1px);
+}
+
+.elang-gemini-button:active {
+  transform: scale(0.96);
+  transition-duration: 60ms;
+}
+
+/* While Gemini answers: the gradient flows around the border and the sparkle twinkles */
+.elang-gemini-button.elang-gemini-busy {
+  cursor: progress;
+  transform: none;
+  animation: elang-gemini-flow 1.6s linear infinite;
+}
+
+.elang-gemini-busy .elang-icon {
+  animation: elang-twinkle 1s ease-in-out infinite;
+}
+
+@keyframes elang-gemini-flow {
+  from {
+    background-position: 0 0, 0% 0;
+  }
+  to {
+    background-position: 0 0, 300% 0;
+  }
+}
+
+@keyframes elang-twinkle {
+  50% {
+    transform: scale(0.75) rotate(20deg);
+    opacity: 0.6;
+  }
+}
+
+/* Gemini's answer appears word by word */
+.elang-gemini-word {
+  animation: elang-word-in 300ms var(--elang-ease-out) backwards;
+}
+
+@keyframes elang-word-in {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
 }
 
 .elang-gemini-button:focus-visible {
@@ -612,6 +705,7 @@
 }
 
 .elang-play-button {
+  position: relative;
   flex-shrink: 0;
   width: 28px;
   height: 28px;
@@ -624,30 +718,169 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s;
+  transition:
+    background var(--elang-dur-fast),
+    color var(--elang-dur-fast),
+    transform var(--elang-dur-fast) var(--elang-ease-out);
 }
 
 .elang-play-button:hover {
   background: var(--elang-accent-strong-soft);
+  transform: translateY(-1px);
 }
 
-.elang-play-button:disabled {
-  cursor: not-allowed;
-  animation: pulse 1.5s ease-in-out infinite;
+/* Pressed: a quick press-down, for every round button and the selection bar's buttons */
+.elang-play-button:active,
+.elang-trigger-button:active {
+  transform: scale(0.9);
+  transition-duration: 60ms;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
+.elang-play-button:focus-visible,
+.elang-trigger-button:focus-visible {
+  outline: 2px solid var(--elang-accent-ring);
+  outline-offset: 2px;
+}
+
+/* Speaking: a filled button with moving sound bars and a soft ripple. Hovering shows the stop icon */
+.elang-play-button.elang-play-button-playing {
+  background: var(--elang-accent);
+  color: var(--elang-surface);
+  transform: none;
+}
+
+.elang-play-button-playing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--elang-accent);
+  pointer-events: none;
+  animation: elang-ripple 1.4s var(--elang-ease-out) infinite;
+}
+
+.elang-play-button-playing .elang-icon {
+  display: none;
+}
+
+.elang-play-button-playing:hover .elang-icon,
+.elang-play-button-playing:focus-visible .elang-icon {
+  display: block;
+}
+
+.elang-play-button-playing:hover .elang-sound-bars,
+.elang-play-button-playing:focus-visible .elang-sound-bars {
+  display: none;
+}
+
+.elang-sound-bars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.elang-sound-bars > span {
+  width: 2.5px;
+  height: 4px;
+  border-radius: 2px;
+  background: currentColor;
+  animation: elang-sound-bar 0.9s var(--elang-ease-out) infinite;
+}
+
+.elang-sound-bars > span:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.elang-sound-bars > span:nth-child(3) {
+  animation-delay: -0.6s;
+}
+
+@keyframes elang-sound-bar {
+  0%,
+  100% {
+    height: 4px;
   }
   50% {
-    opacity: 0.5;
+    height: 13px;
   }
 }
 
-.elang-play-button.elang-play-button-playing {
-  background: var(--elang-accent-strong-soft);
-  box-shadow: 0 0 0 2px var(--elang-accent-ring);
+@keyframes elang-ripple {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* Opening: the popup and the selection bar grow out of the selection with a slight spring.
+   popup-manager.ts sets the origin to the selection's side and adds these classes */
+.elang-popup-enter {
+  animation:
+    elang-popup-in-fade var(--elang-dur-base) var(--elang-ease-out),
+    elang-popup-in-move var(--elang-dur-slow) var(--elang-ease-spring);
+  transform-origin: var(--elang-origin, 20% 0);
+}
+
+.elang-popup-enter.elang-popup-above {
+  --elang-enter-y: 6px;
+}
+
+@keyframes elang-popup-in-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes elang-popup-in-move {
+  from {
+    transform: translateY(var(--elang-enter-y, -6px)) scale(0.96);
+  }
+}
+
+/* Closing: a quick fade before it is removed; it no longer takes clicks */
+.elang-popup-leave {
+  pointer-events: none;
+  animation: elang-popup-out var(--elang-dur-fast) ease-in forwards;
+}
+
+@keyframes elang-popup-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* Content that arrives late (translation, definitions) fades up into place;
+   popup-builder.ts also eases the height change */
+.elang-reveal {
+  animation: elang-fade-up var(--elang-dur-slow) var(--elang-ease-out) backwards;
+}
+
+@keyframes elang-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .elang-pronunciation-popup,
+  .elang-pronunciation-popup *,
+  .elang-pronunciation-popup *::before,
+  .elang-pronunciation-popup *::after,
+  .elang-trigger,
+  .elang-trigger * {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 1ms !important;
+  }
 }
 
 /* YouTube: Sayly's button in the player's control bar and its settings panel over the video.

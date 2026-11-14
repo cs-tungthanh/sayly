@@ -12,6 +12,9 @@ import {
   TRIGGER_CSS_CLASS,
   COPY_FEEDBACK_MS,
   WORD_BUBBLE_GAP_PX,
+  REVEAL_HEIGHT_MS,
+  GEMINI_WORD_STAGGER_MS,
+  GEMINI_WORD_STAGGER_CAP_MS,
   DICTIONARY_SITES
 } from '../constants/app-constants';
 import { UI_LABELS } from '../constants/messages';
@@ -261,14 +264,45 @@ function countLines(element: HTMLElement): number {
 }
 
 /**
- * Swap a placeholder for its loaded content, or drop it when there is none
+ * Swap a placeholder for its loaded content, or drop it when there is none. The content fades up,
+ * and the popup eases to its new height instead of jumping
  */
 function replaceSlot(slot: HTMLElement, content: HTMLElement | null): void {
+  const popup = slot.closest<HTMLElement>(`.${POPUP_CSS_CLASS}`);
+  const before = popup?.offsetHeight ?? 0;
+
   if (content) {
+    content.classList.add('elang-reveal');
     slot.replaceWith(content);
   } else {
     slot.remove();
   }
+
+  if (popup) easeHeight(popup, before);
+}
+
+/**
+ * Animate an element from its old height to the height its content now gives it.
+ * Skipped for a resized popup, whose height the user chose, and when motion is reduced
+ */
+function easeHeight(element: HTMLElement, from: number): void {
+  const to = element.offsetHeight;
+  if (
+    from === 0 ||
+    from === to ||
+    element.classList.contains('elang-popup-resized') ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    return;
+  }
+
+  element.animate(
+    [
+      { height: `${from}px`, overflow: 'hidden' },
+      { height: `${to}px`, overflow: 'hidden' }
+    ],
+    { duration: REVEAL_HEIGHT_MS, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }
+  );
 }
 
 /**
@@ -510,20 +544,33 @@ function createGeminiSection(text: string): HTMLElement {
 
   button.addEventListener('click', async (e) => {
     e.stopPropagation();
-    section.replaceChildren(createSkeleton('elang-popup-skeleton-translation'));
+    if (button.classList.contains('elang-gemini-busy')) return;
+
+    // The button stays while Gemini answers, its border flowing, so the wait has a clear owner
+    section.querySelector('.elang-popup-gemini-error')?.remove();
+    button.classList.add('elang-gemini-busy');
+    button.setAttribute('aria-busy', 'true');
+    label.textContent = UI_LABELS.GEMINI_THINKING;
 
     const result = await requestGeminiTranslation(text);
     // The popup may have closed while Gemini was answering
     if (!section.isConnected) return;
 
+    button.classList.remove('elang-gemini-busy');
+    button.removeAttribute('aria-busy');
+    label.textContent = UI_LABELS.GEMINI_BUTTON;
+
+    const popup = section.closest<HTMLElement>(`.${POPUP_CSS_CLASS}`);
+    const before = popup?.offsetHeight ?? 0;
     if ('text' in result) {
       section.replaceChildren(createGeminiResult(result.text));
     } else {
       const error = document.createElement('div');
-      error.className = 'elang-popup-gemini-error';
+      error.className = 'elang-popup-gemini-error elang-reveal';
       error.textContent = `${UI_LABELS.GEMINI_FAILED}: ${result.error}`;
       section.replaceChildren(error, button);
     }
+    if (popup) easeHeight(popup, before);
   });
 
   section.appendChild(button);
@@ -541,8 +588,21 @@ function createGeminiResult(translated: string): HTMLElement {
   source.className = 'elang-popup-gemini-label';
   source.append(createIcon(ICONS.GEMINI, 12), UI_LABELS.GEMINI_LABEL);
 
+  // Word by word, each a little later than the one before, so it reads as freshly written
   const body = document.createElement('div');
-  body.textContent = translated;
+  let wordIndex = 0;
+  translated.split(/(\s+)/).forEach((part) => {
+    if (!part) return;
+    if (/^\s+$/.test(part)) {
+      body.appendChild(document.createTextNode(part));
+      return;
+    }
+    const word = document.createElement('span');
+    word.className = 'elang-gemini-word';
+    word.style.animationDelay = `${Math.min(wordIndex++ * GEMINI_WORD_STAGGER_MS, GEMINI_WORD_STAGGER_CAP_MS)}ms`;
+    word.textContent = part;
+    body.appendChild(word);
+  });
 
   result.append(source, body);
   return result;
@@ -638,6 +698,17 @@ function createDictionaryDisplay(entries: DictionaryEntry[]): HTMLElement {
 }
 
 /**
+ * Create three bars that move like a sound meter, shown by a play button while it speaks
+ */
+function createSoundBars(): HTMLElement {
+  const bars = document.createElement('span');
+  bars.className = 'elang-sound-bars';
+  bars.setAttribute('aria-hidden', 'true');
+  bars.append(document.createElement('span'), document.createElement('span'), document.createElement('span'));
+  return bars;
+}
+
+/**
  * Create play button that toggles between playing and stopping the selection
  */
 function createPlayButton(text: string): HTMLElement {
@@ -649,8 +720,10 @@ function createPlayButton(text: string): HTMLElement {
     playButton.classList.remove('elang-play-button-playing');
   };
 
+  // Sound bars while speaking; the stop icon shows in their place on hover
   const showPlaying = () => {
     setButtonIcon(playButton, ICONS.STOP, 12, UI_LABELS.STOP_TOOLTIP);
+    playButton.appendChild(createSoundBars());
     playButton.classList.add('elang-play-button-playing');
   };
 
