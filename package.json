@@ -11,6 +11,7 @@
     "build:safari": "pnpm run build && xed safari/Sayly",
     "type-check": "tsc --noEmit",
     "cmudict": "node scripts/build-cmudict.js",
+    "screenshots": "bash scripts/capture-screenshots.sh",
     "cws:check": "node scripts/get-refresh-token.js check",
     "cws:token": "node scripts/get-refresh-token.js",
     "version:patch": "node scripts/bump-version.js patch",

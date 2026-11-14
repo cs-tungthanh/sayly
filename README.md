@@ -85,6 +85,7 @@ pnpm type-check    # TypeScript check
 pnpm build         # production build into dist/
 pnpm build:zip     # production build packed as sayly.zip
 pnpm cmudict       # regenerate src/data/cmudict-ipa.txt from the CMU dictionary
+pnpm screenshots   # rebuild and recapture the store screenshots in screenshots/ (needs Chrome or Edge)
 ```
 
 Built with TypeScript and Vite. The code lives in `src/`:

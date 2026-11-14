@@ -1,0 +1,123 @@
+<!doctype html>
+<!-- A store screenshot scene: the built content script and toolbar popup on a mock page, with
+     stub.js standing in for the extension APIs. scripts/capture-screenshots.sh serves it and capture.mjs captures it.
+     ?shot=1-4 picks the scene; ?mode=icon and ?theme=dark change the settings. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sayly store screenshot</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ext/content-popup.css">
+<script src="stub.js"></script>
+<script src="ext/content.js"></script>
+<style>
+  :root {
+    --bg: #edf2ea; --frame: #ffffff; --bar: #f6f8f5; --bar-line: #e4e9e2; --url-bg: #ffffff; --url: #4d5650;
+    --ink: #1d2b22; --muted: #5f6b63; --article: #1f2622; --duck: #f6c445; --shadow: rgba(40, 60, 45, 0.14);
+  }
+  body.dark {
+    --bg: #0f1411; --frame: #1b211d; --bar: #202822; --bar-line: #2a332d; --url-bg: #2a332d; --url: #b4bdb6;
+    --ink: #eef3ef; --muted: #9aa79e; --article: #d9dfda; --duck: #e9bf45; --shadow: rgba(0, 0, 0, 0.45);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; }
+  body { background: var(--bg); color: var(--ink); font-family: Inter, -apple-system, 'Helvetica Neue', sans-serif; position: relative; }
+  .pitch { position: absolute; left: 64px; top: 0; bottom: 0; width: 330px; display: flex; flex-direction: column; justify-content: center; }
+  .brand { display: flex; align-items: center; gap: 12px; font-size: 19px; font-weight: 700; margin-bottom: 26px; }
+  .brand img { width: 34px; height: 34px; border-radius: 50%; }
+  .brand .ipa { font-family: 'Palatino Linotype', Palatino, Georgia, serif; font-weight: 400; color: var(--muted); font-size: 19px; text-decoration: underline 3px var(--duck); text-underline-offset: 6px; text-decoration-skip-ink: none; }
+  h1 { font-size: 38px; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 18px; font-weight: 700; }
+  .pitch p { margin: 0; font-size: 17px; line-height: 1.6; color: var(--muted); }
+  .browser { position: absolute; left: 440px; top: 60px; width: 790px; height: 680px; background: var(--frame); border-radius: 14px; box-shadow: 0 24px 60px -12px var(--shadow), 0 2px 6px rgba(0,0,0,0.05); overflow: hidden; }
+  .bar { height: 52px; background: var(--bar); border-bottom: 1px solid var(--bar-line); display: flex; align-items: center; gap: 14px; padding: 0 14px 0 18px; }
+  .url { flex: 1; height: 30px; border-radius: 15px; background: var(--url-bg); color: var(--url); font-size: 12.5px; display: flex; align-items: center; padding: 0 14px; }
+  .ext-icon { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; }
+  .ext-icon.active { background: color-mix(in srgb, var(--ink) 9%, transparent); }
+  .ext-icon img { width: 20px; height: 20px; border-radius: 50%; }
+  article { padding: 44px 56px; font-family: Georgia, 'Times New Roman', serif; color: var(--article); font-size: 18.5px; line-height: 1.78; }
+  article h2 { font-size: 31px; line-height: 1.2; margin: 0 0 16px; }
+  article p { margin: 0 0 14px; }
+  .toolbar { z-index: 2147483647; position: absolute; left: 896px; top: 104px; width: 320px; border: none; border-radius: 12px; box-shadow: 0 16px 40px -8px var(--shadow), 0 0 0 1px var(--bar-line); background: var(--frame); }
+</style>
+</head>
+<body>
+  <div class="pitch">
+    <div class="brand"><img src="ext/icons/icon128.png" alt=""> Sayly <span class="ipa">/ˈseɪ.li/</span></div>
+    <h1 id="headline"></h1>
+    <p id="sub"></p>
+  </div>
+
+  <div class="browser">
+    <div class="bar">
+      <div class="url">dailyreads.example/why-pronunciation-matters</div>
+      <div class="ext-icon" id="extIcon"><img src="ext/icons/icon128.png" alt=""></div>
+    </div>
+    <article>
+      <h2>Why pronunciation matters</h2>
+      <p id="p1">Pronunciation is the key to speaking with confidence. When you know how a word sounds, you can say it clearly and understand it when other people use it.</p>
+      <p id="p2">Small details make a big difference. The -ed ending can sound like /t/, /d/ or /ɪd/: booked, played and wanted all end differently.</p>
+      <p id="p3">Select any word or sentence to see its IPA, hear it spoken, and read it in your own language.</p>
+    </article>
+  </div>
+
+<script>
+  const SHOTS = {
+    1: { headline: 'Hear any word, see its IPA', sub: 'Select a word to hear it, read its translation and see what it means in English, right where you read.', select: ['p1', 'Pronunciation'] },
+    2: { headline: 'Every word in a sentence', sub: 'Select a sentence to hear it and read the translation. Tap any word for its own IPA.', select: ['p1', null], clickWord: 'confidence', popupLeft: 590 },
+    3: { headline: 'Your popup, your way', sub: 'Open the popup right away, or show a small icon to click first. Pick your language and dictionary.', select: ['p2', 'booked'], toolbar: true },
+    4: { headline: 'Easy on the eyes at night', sub: 'Light, dark, or match your system.', select: ['p2', 'Small details make a big difference.'], toolbar: true, dark: true, popupLeft: 496 }
+  };
+  const params = new URLSearchParams(location.search);
+  const shot = SHOTS[params.get('shot') || '1'];
+  document.getElementById('headline').textContent = shot.headline;
+  document.getElementById('sub').textContent = shot.sub;
+  if (shot.dark) document.body.classList.add('dark');
+
+  if (shot.toolbar) {
+    document.getElementById('extIcon').classList.add('active');
+    const frame = document.createElement('iframe');
+    frame.className = 'toolbar';
+    frame.src = 'ext/toolbar.html' + location.search;
+    frame.style.height = '560px';
+    frame.addEventListener('load', () => {
+      const fit = () => { frame.style.height = frame.contentDocument.documentElement.scrollHeight + 'px'; };
+      fit();
+      setTimeout(fit, 300);
+    });
+    document.body.appendChild(frame);
+  }
+
+  function selectText(paragraphId, phrase) {
+    const node = document.getElementById(paragraphId).firstChild;
+    const start = phrase ? node.textContent.indexOf(phrase) : 0;
+    const end = phrase ? start + phrase.length : node.textContent.length;
+    const range = document.createRange();
+    range.setStart(node, start);
+    range.setEnd(node, end);
+    const selection = getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const rects = range.getClientRects();
+    const last = rects[rects.length - 1];
+    const x = last.right, y = last.bottom;
+    document.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: x, clientY: y, pointerType: 'mouse' }));
+    document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, clientX: x, clientY: y, detail: 2 }));
+  }
+
+  setTimeout(() => selectText(...shot.select), 400);
+  // Keep the popup inside the browser frame and clear of the toolbar popup
+  if (shot.popupLeft) {
+    setTimeout(() => {
+      const popup = document.querySelector('.elang-pronunciation-popup');
+      if (popup) popup.style.left = shot.popupLeft + 'px';
+    }, 800);
+  }
+  if (shot.clickWord) {
+    setTimeout(() => {
+      const word = [...document.querySelectorAll('.elang-popup-word')].find((w) => w.textContent === shot.clickWord);
+      word?.click();
+    }, 1100);
+  }
+</script>
+</body>
+</html>
