@@ -1,11 +1,11 @@
 /**
- * Background service worker - performs cross-origin translation and IPA requests for content scripts
+ * Background service worker - performs cross-origin translation, IPA and definition requests for content scripts
  * and plays Google TTS audio through the offscreen document
  */
 
 import { translate } from '../api/translate-api';
 import { translateWithGemini } from '../api/gemini-api';
-import { lookupWordIpa } from '../api/dictionary-api';
+import { lookupWordIpa, lookupEnglishDefinitions } from '../api/dictionary-api';
 import { buildGoogleTtsUrls } from '../api/google-tts';
 import { getTtsAudio, getCachedTtsAudio } from '../speech/tts-audio-cache';
 import { OFFSCREEN_DOCUMENT_PATH, MESSAGE_ACTIONS } from '../constants/app-constants';
@@ -97,6 +97,12 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.action === MESSAGE_ACTIONS.LOOKUP_IPA) {
     // lookupWordIpa reads failures as "no IPA", so it never rejects
     lookupWordIpa(message.word).then(ipa => sendResponse({ ipa }));
+    return true;
+  }
+
+  if (message.action === MESSAGE_ACTIONS.LOOKUP_DEFINITIONS) {
+    // Failures read as "no definitions", so it never rejects
+    lookupEnglishDefinitions(message.word).then(definitions => sendResponse({ definitions }));
     return true;
   }
 

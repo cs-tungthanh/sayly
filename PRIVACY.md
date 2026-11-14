@@ -1,6 +1,6 @@
 # Privacy Policy for Sayly
 
-**Last Updated: October 25, 2026**
+**Last Updated: November 14, 2026**
 
 ## Overview
 
@@ -16,12 +16,13 @@ The extension runs in your browser and only contacts the services listed under T
 
 1. **Text Selection**: When you select text on a webpage, the extension processes it locally in your browser
 2. **IPA Notation**: Pronunciations come from a dictionary built into the extension, so looking up a word normally sends nothing. Only for a word that dictionary doesn't have, the word is sent to the Free Dictionary API (dictionaryapi.dev) - no user information is sent
-3. **Translation** (optional): Translation is on by default (Vietnamese). The selected text is sent to Google Translate, or to MyMemory if Google fails, to translate it. Turn translation off in Settings to stop this
-4. **Gemini translation** (optional, off unless you add a key): If you add your own Gemini API key in Settings, the popup shows a "Say it naturally" button. Only when you click it, the selected text is sent to Google's Gemini API with your key
-5. **Text-to-Speech**: When you press play, the text being spoken is sent to Google Translate's text-to-speech service to get the audio. If that fails, your browser's built-in speech synthesis is used instead, which runs locally
-6. **No Tracking**: We don't track your usage, selections, or browsing activity
-7. **No Analytics**: We don't use any analytics services
-8. **No Cookies**: We don't set or read any cookies
+3. **English definitions** (optional, on by default): When you select a single word, it is sent to the Free Dictionary API (dictionaryapi.dev) to get its meanings and examples - no user information is sent. Turn English definitions off in Settings to stop this
+4. **Translation** (optional): Translation is on by default (Vietnamese). The selected text is sent to Google Translate, or to MyMemory if Google fails, to translate it. Turn translation off in Settings to stop this
+5. **Gemini translation** (optional, off unless you add a key): If you add your own Gemini API key in Settings, the popup shows a "Say it naturally" button. Only when you click it, the selected text is sent to Google's Gemini API with your key
+6. **Text-to-Speech**: When you press play, the text being spoken is sent to Google Translate's text-to-speech service to get the audio. If that fails, your browser's built-in speech synthesis is used instead, which runs locally
+7. **No Tracking**: We don't track your usage, selections, or browsing activity
+8. **No Analytics**: We don't use any analytics services
+9. **No Cookies**: We don't set or read any cookies
 
 ## Permissions Used
 
@@ -37,7 +38,7 @@ These permissions are used solely to provide the pronunciation functionality and
 ## Third-Party Services
 
 The extension makes requests to:
-- **Free Dictionary API** (dictionaryapi.dev): To fetch IPA phonetic notation for words missing from the built-in dictionary
+- **Free Dictionary API** (dictionaryapi.dev): To fetch IPA phonetic notation for words missing from the built-in dictionary, and English definitions of a selected word when that setting is on
   - Only the word itself is sent
   - No user information or identifiers are included
   - This is a public API that doesn't require authentication

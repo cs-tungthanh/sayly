@@ -294,6 +294,60 @@ export async function saveShowCopyButton(show: boolean): Promise<void> {
 }
 
 /**
+ * Whether a single selected word's popup shows its English definitions with examples (on by default;
+ * it sends each such word to the online dictionary)
+ */
+export async function getShowDefinitions(): Promise<boolean> {
+  try {
+    const { showDefinitions } = await chrome.storage.local.get('showDefinitions');
+    return showDefinitions !== false;
+  } catch (error) {
+    console.error(`${LOG_PREFIX} Failed to read storage:`, error);
+    return true;
+  }
+}
+
+export async function saveShowDefinitions(show: boolean): Promise<void> {
+  try {
+    await chrome.storage.local.set({ showDefinitions: show });
+  } catch (error) {
+    console.error(`${LOG_PREFIX} Failed to save to storage:`, error);
+  }
+}
+
+/**
+ * The popup size the user chose by resizing it: its width, and its largest height
+ * @returns null for the default size
+ */
+export async function getPopupSize(): Promise<{ width: number; height: number } | null> {
+  try {
+    const { popupSize } = await chrome.storage.local.get('popupSize');
+    const valid = (value: unknown) => typeof value === 'number' && Number.isFinite(value) && value > 0;
+    return popupSize && valid(popupSize.width) && valid(popupSize.height)
+      ? { width: popupSize.width, height: popupSize.height }
+      : null;
+  } catch (error) {
+    console.error(`${LOG_PREFIX} Failed to read storage:`, error);
+    return null;
+  }
+}
+
+/**
+ * Save the popup size, or go back to the default size with null
+ */
+export async function savePopupSize(size: { width: number; height: number } | null): Promise<void> {
+  try {
+    if (size) {
+      await chrome.storage.local.set({ popupSize: size });
+    } else {
+      await chrome.storage.local.remove('popupSize');
+    }
+  } catch (error) {
+    console.error(`${LOG_PREFIX} Failed to save to storage:`, error);
+  }
+}
+
+/**
  * Get the speech speed (playback rate)
  * @returns The stored speed, or normal speed when unset or unknown
  */

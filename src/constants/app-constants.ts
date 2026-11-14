@@ -22,6 +22,10 @@ export const AUTO_DETECT_LANG = 'auto';
 // Selected Vietnamese text is translated into English instead of into the chosen language
 export const VIETNAMESE_LANG = 'vi';
 export const DICTIONARY_MAX_MEANINGS = 5;
+// English definitions shown for a single selected word, when that setting is on: at most this many
+// parts of speech, each with at most this many senses
+export const ENGLISH_MAX_PARTS_OF_SPEECH = 3;
+export const ENGLISH_MAX_DEFINITIONS = 3;
 export const TRANSLATION_OFF = 'off';
 
 // Gemini: the text as natural spoken English, made only when the popup's Gemini button is clicked.
@@ -122,6 +126,7 @@ export const MESSAGE_ACTIONS = {
   TRANSLATE: 'translate',
   TRANSLATE_GEMINI: 'translate-gemini',
   LOOKUP_IPA: 'lookup-ipa',
+  LOOKUP_DEFINITIONS: 'lookup-definitions',
   // Content scripts can't open the options page themselves
   OPEN_OPTIONS: 'open-options',
   // Extension popup → content script
@@ -131,7 +136,8 @@ export const MESSAGE_ACTIONS = {
 
 // Background caches for repeated lookups (entries; the service worker's memory is dropped when it idles out)
 export const TRANSLATION_CACHE_SIZE = 200;
-export const IPA_CACHE_SIZE = 500;
+// Online dictionary answers, used for IPA of words missing from the bundled dictionary and for definitions
+export const DICTIONARY_ENTRY_CACHE_SIZE = 500;
 // Downloaded Google TTS audio (one entry per chunk and speed), kept this long for replays
 export const TTS_AUDIO_CACHE_SIZE = 100;
 export const TTS_AUDIO_CACHE_TTL_MS = 10 * 60 * 1000;
@@ -155,6 +161,9 @@ export const COPY_FEEDBACK_MS = 1200;
 export const CLICK_MAX_MOVE_PX = 4;
 export const POPUP_POSITION_OFFSET_PX = 10;
 export const POPUP_EDGE_MARGIN_PX = 10;
+// Smallest size the popup can be resized to
+export const POPUP_MIN_WIDTH_PX = 200;
+export const POPUP_MIN_HEIGHT_PX = 120;
 export const VOICE_LOAD_TIMEOUT_MS = 3000;
 export const WORD_BUBBLE_GAP_PX = 6;
 export const SPEECH_FALLBACK_TIMEOUT_MS = 10000;

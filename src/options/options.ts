@@ -18,6 +18,8 @@ import {
   saveDictionarySite,
   getShowCopyButton,
   saveShowCopyButton,
+  getShowDefinitions,
+  saveShowDefinitions,
   getTheme,
   saveTheme,
   getSpeechSpeed,
@@ -83,6 +85,7 @@ interface OptionsElements {
   popupMode: HTMLSelectElement | null;
   dictionarySite: HTMLSelectElement | null;
   showCopyButton: HTMLInputElement | null;
+  showDefinitions: HTMLInputElement | null;
   theme: HTMLSelectElement | null;
   voice: HTMLSelectElement | null;
   speechSpeed: HTMLSelectElement | null;
@@ -113,6 +116,7 @@ function getOptionsElements(): OptionsElements {
     popupMode: getOptionalElement<HTMLSelectElement>('popupMode'),
     dictionarySite: getOptionalElement<HTMLSelectElement>('dictionarySite'),
     showCopyButton: getOptionalElement<HTMLInputElement>('showCopyButton'),
+    showDefinitions: getOptionalElement<HTMLInputElement>('showDefinitions'),
     theme: getOptionalElement<HTMLSelectElement>('theme'),
     voice: getOptionalElement<HTMLSelectElement>('voice'),
     speechSpeed: getOptionalElement<HTMLSelectElement>('speechSpeed'),
@@ -221,6 +225,19 @@ async function renderShowCopyButton(elements: OptionsElements): Promise<void> {
 
   checkbox.checked = await getShowCopyButton();
   checkbox.addEventListener('change', () => saveShowCopyButton(checkbox.checked));
+}
+
+/**
+ * Render the switch for English definitions in a single word's popup
+ */
+async function renderShowDefinitions(elements: OptionsElements): Promise<void> {
+  const checkbox = elements.showDefinitions;
+  if (!checkbox) {
+    return;
+  }
+
+  checkbox.checked = await getShowDefinitions();
+  checkbox.addEventListener('change', () => saveShowDefinitions(checkbox.checked));
 }
 
 /**
@@ -555,6 +572,7 @@ async function initOptions(): Promise<void> {
     renderPopupMode(elements),
     renderDictionarySite(elements),
     renderShowCopyButton(elements),
+    renderShowDefinitions(elements),
     renderTheme(elements),
     renderVoice(elements),
     renderSpeechSpeed(elements),

@@ -5,12 +5,15 @@
 import { requestTranslation, isGeminiAvailable } from '../api/translation-client';
 import { createPopup } from './popup-builder';
 import { popupManager, type PopupRemoveListener } from './popup-manager';
-import { getShowCopyButton, getTheme, isDarkTheme } from '../shared/utils';
+import { getShowCopyButton, getShowDefinitions, getPopupSize, savePopupSize, getTheme, isDarkTheme } from '../shared/utils';
+import { makeResizable, applySavedSize, type PopupSize } from './resizable';
 import { cachedSetting } from '../shared/settings-cache';
 import { DARK_THEME_CSS_CLASS } from '../constants/app-constants';
 
 const readShowCopyButton = cachedSetting('showCopyButton', getShowCopyButton);
 const readTheme = cachedSetting('theme', getTheme);
+const readShowDefinitions = cachedSetting('showDefinitions', getShowDefinitions);
+const readPopupSize = cachedSetting('popupSize', getPopupSize);
 
 /**
  * Settings that shape a popup, read once per popup
@@ -20,11 +23,21 @@ export interface PopupLook {
   dark: boolean;
   /** A Gemini API key is set and translation is on */
   gemini: boolean;
+  /** A single selected word shows its English definitions with examples */
+  definitions: boolean;
+  /** The size the user resized popups to, or null for the default */
+  size: PopupSize | null;
 }
 
 export async function readPopupLook(): Promise<PopupLook> {
-  const [showCopy, theme, gemini] = await Promise.all([readShowCopyButton(), readTheme(), isGeminiAvailable()]);
-  return { showCopy, dark: isDarkTheme(theme), gemini };
+  const [showCopy, theme, gemini, definitions, size] = await Promise.all([
+    readShowCopyButton(),
+    readTheme(),
+    isGeminiAvailable(),
+    readShowDefinitions(),
+    readPopupSize()
+  ]);
+  return { showCopy, dark: isDarkTheme(theme), gemini, definitions, size };
 }
 
 /**
@@ -37,8 +50,15 @@ export function openTextPopup(
   look: PopupLook,
   onRemove?: PopupRemoveListener
 ): HTMLElement {
-  const popup = createPopup(text, () => popupManager.removePopup(), look.showCopy, look.gemini);
+  const popup = createPopup(text, () => popupManager.removePopup(), {
+    showCopy: look.showCopy,
+    showGemini: look.gemini,
+    showDefinitions: look.definitions
+  });
   popup.element.classList.toggle(DARK_THEME_CSS_CLASS, look.dark);
+  // Sized before it is placed, so it is kept inside the window at that size
+  if (look.size) applySavedSize(popup.element, look.size);
+  makeResizable(popup.element, savePopupSize);
   popupManager.showPopup(popup.element, position, onRemove);
 
   // A newer popup may have replaced this one before the request returned

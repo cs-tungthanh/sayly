@@ -3,6 +3,8 @@
  */
 
 import { requestWordIpa } from '../api/ipa-client';
+import { requestEnglishDefinitions } from '../api/definitions-client';
+import type { WordDefinitions } from '../api/dictionary-api';
 import { requestGeminiTranslation } from '../api/translation-client';
 import type { DictionaryEntry, TranslationResult } from '../api/translate-api';
 import {
@@ -37,15 +39,24 @@ export interface PronunciationPopup {
 }
 
 /**
+ * What a popup offers besides the text, its IPA and the translation
+ */
+export interface PopupOptions {
+  /** The copy button (word + IPA, or text + translation) */
+  showCopy: boolean;
+  /** The Gemini button, which translates only when clicked */
+  showGemini: boolean;
+  /** For a single word: its English definitions with examples, as a learner's dictionary shows them */
+  showDefinitions: boolean;
+}
+
+/**
  * Create the popup element with a loading placeholder for the translation
- * @param showCopy Whether to show the copy button (word + IPA, or text + translation)
- * @param showGemini Whether to offer the Gemini button, which translates only when clicked
  */
 export function createPopup(
   text: string,
   onClose: () => void,
-  showCopy: boolean,
-  showGemini: boolean
+  { showCopy, showGemini, showDefinitions }: PopupOptions
 ): PronunciationPopup {
   const popup = document.createElement('div');
   popup.className = POPUP_CSS_CLASS;
@@ -124,6 +135,8 @@ export function createPopup(
   const translationSlot = createSkeleton('elang-popup-skeleton-translation');
   contentWrapper.appendChild(translationSlot);
   if (showGemini) contentWrapper.appendChild(createGeminiSection(text));
+  // A single word's English definitions come after its translation
+  if (singleWord && showDefinitions) contentWrapper.appendChild(createDefinitionsSection(singleWord));
 
   return {
     element: popup,
@@ -533,6 +546,72 @@ function createGeminiResult(translated: string): HTMLElement {
 
   result.append(source, body);
   return result;
+}
+
+/**
+ * Create the English definitions of a word: a placeholder until they arrive, then each part of speech
+ * with its numbered senses and their examples. Shows nothing when the dictionary has none.
+ */
+function createDefinitionsSection(word: string): HTMLElement {
+  const slot = createSkeleton('elang-popup-skeleton-definitions');
+  requestEnglishDefinitions(word).then((definitions) => {
+    // The popup may have closed while the lookup was running
+    if (slot.isConnected) replaceSlot(slot, definitions ? createDefinitionsDisplay(definitions) : null);
+  });
+  return slot;
+}
+
+/**
+ * Show a word's English definitions: which verb it is a past form of, then its meanings
+ */
+function createDefinitionsDisplay({ forms, meanings }: WordDefinitions): HTMLElement {
+  const section = document.createElement('div');
+  section.className = 'elang-popup-definitions';
+
+  // "past participle of see", one line per verb ("lay": past simple of lie)
+  forms.forEach(({ kind, base }) => {
+    const note = document.createElement('div');
+    note.className = 'elang-popup-definitions-form';
+    const baseWord = document.createElement('strong');
+    baseWord.textContent = base;
+    note.append(`${kind} of `, baseWord);
+    section.appendChild(note);
+  });
+
+  meanings.forEach(({ partOfSpeech, definitions, headword }) => {
+    const group = document.createElement('div');
+    group.className = 'elang-popup-definitions-group';
+
+    // Senses borrowed from the verb name it: "verb · see"
+    const partOfSpeechLabel = document.createElement('div');
+    partOfSpeechLabel.className = 'elang-popup-definitions-pos';
+    partOfSpeechLabel.textContent = headword ? `${partOfSpeech} · ${headword}` : partOfSpeech;
+    group.appendChild(partOfSpeechLabel);
+
+    const list = document.createElement('ol');
+    list.className = 'elang-popup-definitions-list';
+    definitions.forEach(({ definition, example }) => {
+      const item = document.createElement('li');
+
+      const definitionText = document.createElement('div');
+      definitionText.className = 'elang-popup-definitions-text';
+      definitionText.textContent = definition;
+      item.appendChild(definitionText);
+
+      if (example) {
+        const exampleText = document.createElement('div');
+        exampleText.className = 'elang-popup-definitions-example';
+        exampleText.textContent = example;
+        item.appendChild(exampleText);
+      }
+
+      list.appendChild(item);
+    });
+    group.appendChild(list);
+    section.appendChild(group);
+  });
+
+  return section;
 }
 
 /**

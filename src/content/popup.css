@@ -85,6 +85,98 @@
   max-height: calc(80vh - 20px);
 }
 
+/* Resized by the user: their size replaces the default limits, and the content fills it */
+.elang-pronunciation-popup.elang-popup-resized {
+  box-sizing: border-box;
+  max-width: none;
+}
+
+.elang-popup-resized .elang-popup-content-wrapper {
+  max-height: none;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The parts share the chosen height: with room to spare they stretch to fill it, and when the
+   content is too long each shrinks in proportion to its length and scrolls on its own. Headers and
+   buttons keep their size. */
+.elang-popup-resized .elang-popup-content-wrapper > * {
+  flex: none;
+}
+
+.elang-popup-resized .elang-popup-content-wrapper > .elang-popup-source,
+.elang-popup-resized .elang-popup-content-wrapper > .elang-popup-definitions,
+.elang-popup-resized .elang-popup-content-wrapper > .elang-popup-translation,
+.elang-popup-resized .elang-popup-gemini:has(> .elang-popup-translation) {
+  flex: 1 1 auto;
+  min-height: 48px;
+}
+
+.elang-popup-resized .elang-popup-content-wrapper > .elang-popup-definitions {
+  overflow-y: auto;
+  min-height: 72px;
+}
+
+/* A single word's translation is short: it keeps its full height (up to the usual limit), and the
+   definitions take the rest of the space and scroll. A sentence's text and translation share it. */
+.elang-popup-resized .elang-popup-content-wrapper:has(> .elang-popup-definitions) > .elang-popup-translation,
+.elang-popup-resized .elang-popup-content-wrapper:has(> .elang-popup-definitions) > .elang-popup-gemini {
+  flex: 0 0 auto;
+  max-height: 180px;
+}
+
+.elang-popup-resized .elang-popup-translation {
+  max-height: none;
+  box-sizing: border-box;
+}
+
+/* The text box fills its row; the play and copy buttons stay at the top */
+.elang-popup-resized .elang-popup-source {
+  align-items: stretch;
+}
+
+.elang-popup-resized .elang-popup-source .elang-popup-text {
+  max-height: none;
+  box-sizing: border-box;
+}
+
+.elang-popup-resized .elang-popup-source-actions {
+  align-self: flex-start;
+}
+
+/* Gemini's answer fills its section */
+.elang-popup-resized .elang-popup-gemini:has(> .elang-popup-translation) {
+  display: flex;
+  flex-direction: column;
+}
+
+.elang-popup-resized .elang-popup-gemini > .elang-popup-translation {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Corner grip for resizing: two diagonal strokes */
+.elang-popup-resize-grip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  touch-action: none;
+  border-bottom-right-radius: 8px;
+  background:
+    linear-gradient(135deg, transparent 0 55%, var(--elang-text-faint) 55% 62%, transparent 62% 72%,
+      var(--elang-text-faint) 72% 79%, transparent 79%);
+  opacity: 0.6;
+}
+
+.elang-popup-resize-grip:hover {
+  opacity: 1;
+}
+
 /* Small bar by the selection in "display icon" mode: open-popup icon, optional copy button */
 .elang-trigger {
   position: absolute;
@@ -314,6 +406,66 @@
   color: var(--elang-text);
 }
 
+/* English definitions of a single word, learner's-dictionary style: part of speech, then numbered
+   senses, each with its example in italics */
+.elang-popup-definitions {
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--elang-text);
+}
+
+.elang-popup-definitions-form {
+  color: var(--elang-text-muted);
+  margin-bottom: 4px;
+}
+
+.elang-popup-definitions-form strong {
+  color: var(--elang-accent);
+  font-weight: 600;
+}
+
+.elang-popup-definitions-group + .elang-popup-definitions-group {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--elang-border);
+}
+
+.elang-popup-definitions-pos {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--elang-text-faint);
+  margin-bottom: 2px;
+}
+
+.elang-popup-definitions-list {
+  margin: 0;
+  padding: 0 0 0 18px;
+  /* Pages often restyle lists; keep the numbers */
+  list-style: decimal outside;
+}
+
+.elang-popup-definitions-list > li {
+  margin: 0 0 4px;
+  padding: 0;
+}
+
+.elang-popup-definitions-list > li::marker {
+  color: var(--elang-text-faint);
+}
+
+.elang-popup-definitions-text {
+  font-weight: 600;
+}
+
+.elang-popup-definitions-example {
+  margin-top: 1px;
+  font-style: italic;
+  color: var(--elang-text-muted);
+  border-left: 2px solid var(--elang-accent-strong-soft);
+  padding-left: 6px;
+}
+
 /* Single selected word: word and IPA, then play and dictionary buttons */
 .elang-popup-word-header {
   display: flex;
@@ -384,6 +536,11 @@
 .elang-popup-skeleton-translation {
   height: 24px;
   width: 75%;
+}
+
+.elang-popup-skeleton-definitions {
+  height: 48px;
+  width: 90%;
 }
 
 @keyframes elang-shimmer {

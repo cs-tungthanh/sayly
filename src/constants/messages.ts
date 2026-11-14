@@ -23,6 +23,7 @@ export const UI_LABELS = {
   ENABLED: 'Enabled',
   DISABLED: 'Disabled',
   DRAG_TOOLTIP: 'Drag to move',
+  RESIZE_TOOLTIP: 'Drag to resize (double-click for the default size)',
   CLOSE_TOOLTIP: 'Close (Esc)',
   PLAY_WORD_TOOLTIP: 'Hear this word',
   WORD_TOOLTIP: 'Click for pronunciation',
