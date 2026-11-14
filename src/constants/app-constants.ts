@@ -56,6 +56,9 @@ export const DICTIONARY_SITES = {
 export type DictionarySite = keyof typeof DICTIONARY_SITES;
 export const DEFAULT_DICTIONARY_SITE: DictionarySite = 'dictionary-com';
 
+// The search link opens the selection here; the text is appended to the URL
+export const GOOGLE_SEARCH_URL = 'https://www.google.com/search?q=';
+
 // Color theme for Sayly's popups and pages; "system" follows the browser's light/dark preference
 export const THEMES = {
   SYSTEM: 'system',

@@ -15,7 +15,8 @@ import {
   REVEAL_HEIGHT_MS,
   GEMINI_WORD_STAGGER_MS,
   GEMINI_WORD_STAGGER_CAP_MS,
-  DICTIONARY_SITES
+  DICTIONARY_SITES,
+  GOOGLE_SEARCH_URL
 } from '../constants/app-constants';
 import { UI_LABELS } from '../constants/messages';
 import { makeDraggable } from './draggable';
@@ -106,7 +107,8 @@ export function createPopup(
     actions.className = 'elang-popup-source-actions';
     if (!vietnamese) actions.appendChild(createPlayButton(text));
     if (copyButton) actions.appendChild(copyButton);
-    if (actions.childElementCount > 0) sourceRow.appendChild(actions);
+    actions.appendChild(createGoogleSearchLink(text));
+    sourceRow.appendChild(actions);
     contentWrapper.appendChild(sourceRow);
 
     // Buttons sit in a row beside a one-line selection and stack beside a longer one. Decided
@@ -403,6 +405,19 @@ function createDictionaryLink(className: string, iconSize: number, word?: string
 }
 
 /**
+ * Create a link that searches the text on Google in a new tab
+ */
+function createGoogleSearchLink(text: string): HTMLAnchorElement {
+  const link = document.createElement('a');
+  link.className = 'elang-play-button';
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.href = GOOGLE_SEARCH_URL + encodeURIComponent(text.replace(/\s+/g, ' ').trim());
+  setButtonIcon(link, ICONS.SEARCH, 14, UI_LABELS.GOOGLE_SEARCH_TOOLTIP);
+  return link;
+}
+
+/**
  * Point a dictionary link at a word, as shown in the text, on the chosen dictionary site
  */
 function pointDictionaryLink(link: HTMLAnchorElement, word: string): void {
@@ -449,6 +464,7 @@ function createWordHeader(
   header.appendChild(createPlayButton(word));
   if (copyButton) header.appendChild(copyButton);
   header.appendChild(createDictionaryLink('elang-play-button', 14, word));
+  header.appendChild(createGoogleSearchLink(word));
 
   return header;
 }

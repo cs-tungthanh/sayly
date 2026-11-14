@@ -37,6 +37,7 @@ export const UI_LABELS = {
   COPY_TOOLTIP: 'Copy',
   COPIED: 'Copied',
   COPY_FAILED: "Couldn't copy",
+  GOOGLE_SEARCH_TOOLTIP: 'Search on Google',
   GEMINI_BUTTON: 'Say it naturally',
   GEMINI_THINKING: 'Thinking…',
   GEMINI_TOOLTIP: 'Ask Gemini how a native speaker would say this in English',
