@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sayly</title>
+  <link rel="stylesheet" href="content-popup.css">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header class="brand">
+    <img class="brand-mark" src="icons/icon48.png" alt="" width="24" height="24">
+    <p class="brand-name">Sayly <span class="brand-ipa" lang="und-fonipa">/ˈseɪ.li/</span></p>
+  </header>
+
+  <main id="result" aria-live="polite"></main>
+
+  <section class="empty" id="emptyState">
+    <p class="empty-title">Select text, then right-click</p>
+    <p class="empty-hint">Choose <strong>Pronounce with Sayly</strong> to see its IPA, hear it and read its translation here. This works in PDFs too.</p>
+  </section>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

@@ -8,8 +8,13 @@ import { translateWithGemini } from '../api/gemini-api';
 import { lookupWordIpa, lookupEnglishDefinitions } from '../api/dictionary-api';
 import { buildGoogleTtsUrls } from '../api/google-tts';
 import { getTtsAudio, getCachedTtsAudio } from '../speech/tts-audio-cache';
-import { OFFSCREEN_DOCUMENT_PATH, MESSAGE_ACTIONS } from '../constants/app-constants';
-import { LOG_PREFIX } from '../constants/messages';
+import {
+  OFFSCREEN_DOCUMENT_PATH,
+  MESSAGE_ACTIONS,
+  CONTEXT_MENU_PRONOUNCE_ID,
+  SIDE_PANEL_TEXT_KEY
+} from '../constants/app-constants';
+import { LOG_PREFIX, UI_LABELS } from '../constants/messages';
 import { OFFSCREEN_TARGET, TTS_MESSAGES, SpeechStatus } from '../speech/tts-messages';
 
 // Shared while a createDocument call is in flight; creating a second document throws
@@ -83,6 +88,80 @@ async function stopGoogleSpeech(): Promise<void> {
   speechToken++;
   if (!offscreenSupported || !(await chrome.offscreen.hasDocument())) return;
   await chrome.runtime.sendMessage({ target: OFFSCREEN_TARGET, action: TTS_MESSAGES.OFFSCREEN_STOP });
+}
+
+// The right-click menu shows the selection in the side panel. It is the way in where content scripts
+// can't run, such as the browser's PDF viewer. Safari has no side panel, so it gets no menu item.
+if (chrome.sidePanel && chrome.contextMenus) {
+  chrome.runtime.onInstalled.addListener(() => {
+    chrome.contextMenus.create({
+      id: CONTEXT_MENU_PRONOUNCE_ID,
+      title: UI_LABELS.CONTEXT_MENU_PRONOUNCE,
+      contexts: ['selection']
+    });
+  });
+
+  chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId !== CONTEXT_MENU_PRONOUNCE_ID) return;
+    console.info(`${LOG_PREFIX} Menu clicked`, { tabId: tab?.id, windowId: tab?.windowId, hasText: Boolean(info.selectionText) });
+    const text = info.selectionText?.trim();
+    if (!text) return;
+
+    // The panel reads the text when it opens and follows later changes; `at` makes the same text
+    // picked twice a change too
+    chrome.storage.session.set({ [SIDE_PANEL_TEXT_KEY]: { text, at: Date.now() } });
+    openSidePanel(tab);
+  });
+}
+
+/**
+ * Open the side panel; where it can't open (no side panel API, or the browser refuses), show the
+ * same page in a small window at the right of the screen instead
+ */
+function openSidePanel(tab: chrome.tabs.Tab | undefined): void {
+  // A click in the PDF viewer can come without its tab, so fall back to the current window.
+  // open() only works during the click's user gesture, so it must be called before any await.
+  const windowId = tab?.windowId ?? chrome.windows.WINDOW_ID_CURRENT;
+  let opening: Promise<void>;
+  try {
+    opening = chrome.sidePanel.open({ windowId });
+  } catch (error) {
+    opening = Promise.reject(error);
+  }
+  opening.then(() => console.info(`${LOG_PREFIX} Side panel opened`, { windowId })).catch(error => {
+    console.warn(`${LOG_PREFIX} Opening the side panel failed, opening a window instead:`, error);
+    openPanelWindow(tab?.windowId);
+  });
+}
+
+// The fallback window, reused so repeated clicks don't stack windows
+let panelWindowId: number | null = null;
+
+async function openPanelWindow(nearWindowId: number | undefined): Promise<void> {
+  if (panelWindowId !== null) {
+    try {
+      await chrome.windows.update(panelWindowId, { focused: true });
+      return;
+    } catch {
+      panelWindowId = null; // It was closed
+    }
+  }
+
+  const width = 380;
+  const near = await chrome.windows
+    .get(nearWindowId ?? chrome.windows.WINDOW_ID_CURRENT)
+    .catch(() => null);
+  const left = near?.left !== undefined && near.width !== undefined ? near.left + near.width - width : undefined;
+
+  const created = await chrome.windows.create({
+    url: chrome.runtime.getURL('sidepanel.html'),
+    type: 'popup',
+    width,
+    height: near?.height ?? 640,
+    left,
+    top: near?.top
+  });
+  panelWindowId = created?.id ?? null;
 }
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {

@@ -8,7 +8,9 @@
     "activeTab",
     "storage",
     "tabs",
-    "offscreen"
+    "offscreen",
+    "contextMenus",
+    "sidePanel"
   ],
   "host_permissions": [
     "https://translate.googleapis.com/*",
@@ -33,6 +35,9 @@
       "128": "icons/icon128.png"
     },
     "default_title": "Sayly"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
   },
   "content_scripts": [
     {

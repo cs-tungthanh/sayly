@@ -13,6 +13,7 @@ function copyExtensionFiles(): Plugin {
       copyFileSync('src/content/popup.css', 'dist/content-popup.css')
       copyFileSync('src/options/options.css', 'dist/options.css')
       copyFileSync('src/popup/popup.css', 'dist/popup.css')
+      copyFileSync('src/sidepanel/sidepanel.css', 'dist/sidepanel.css')
 
       // Bundled pronunciation dictionary and its license (which must ship with it)
       copyFileSync('src/data/cmudict-ipa.txt', 'dist/cmudict-ipa.txt')
@@ -21,6 +22,7 @@ function copyExtensionFiles(): Plugin {
       // Copy HTML files
       copyFileSync('src/options/options.html', 'dist/options.html')
       copyFileSync('src/popup/popup.html', 'dist/popup.html')
+      copyFileSync('src/sidepanel/sidepanel.html', 'dist/sidepanel.html')
       copyFileSync('src/offscreen/offscreen.html', 'dist/offscreen.html')
 
       // Create icons directory
@@ -48,6 +50,7 @@ export default defineConfig(({ mode }) => ({
         background: resolve(__dirname, 'src/background/background.ts'),
         options: resolve(__dirname, 'src/options/options.ts'),
         popup: resolve(__dirname, 'src/popup/popup.ts'),
+        sidepanel: resolve(__dirname, 'src/sidepanel/sidepanel.ts'),
         offscreen: resolve(__dirname, 'src/offscreen/offscreen.ts'),
       },
       output: {

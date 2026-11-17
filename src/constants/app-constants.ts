@@ -123,6 +123,12 @@ export const GOOGLE_TTS_SLOW_SPEED = '0.24';
 export const TTS_LANG = 'en';
 export const OFFSCREEN_DOCUMENT_PATH = 'offscreen.html';
 
+// Right-click menu item that shows a selection in the side panel; works where content scripts
+// can't run, such as the browser's PDF viewer
+export const CONTEXT_MENU_PRONOUNCE_ID = 'sayly-pronounce';
+// chrome.storage.session key holding the text the side panel shows: { text, at }
+export const SIDE_PANEL_TEXT_KEY = 'sidePanelText';
+
 // Runtime message actions (Google TTS ones live in speech/tts-messages.ts)
 export const MESSAGE_ACTIONS = {
   // Content script → background

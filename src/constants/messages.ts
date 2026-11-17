@@ -18,6 +18,7 @@ export const ERROR_MESSAGES = {
 } as const;
 
 export const UI_LABELS = {
+  CONTEXT_MENU_PRONOUNCE: 'Pronounce “%s” with Sayly',
   PLAY_TOOLTIP: 'Read out loud',
   STOP_TOOLTIP: 'Stop',
   ENABLED: 'Enabled',
