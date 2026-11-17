@@ -16,6 +16,17 @@ import { speechService } from '../speech/speech-service';
  */
 export type PopupRemoveListener = (replaced: boolean) => void;
 
+/**
+ * Where a popup hangs, in page coordinates: below y (the bottom of the selected text), or, when
+ * there is no room below, above top (its top edge), so it never covers the text or the pointer on it
+ */
+export interface PopupAnchor {
+  x: number;
+  y: number;
+  /** Defaults to y, for anchors that are a point rather than a span of text */
+  top?: number;
+}
+
 // Events kept from reaching a player under an element, which would pause, seek or leave full screen
 const PLAYER_EVENTS = ['click', 'mousedown', 'mouseup', 'pointerdown', 'pointerup', 'dblclick', 'wheel'];
 
@@ -32,6 +43,28 @@ export function stopPlayerEvents(element: HTMLElement): void {
 function getPopupContainer(): HTMLElement {
   const fullscreen = document.fullscreenElement;
   return fullscreen instanceof HTMLElement && !fullscreen.contains(document.body) ? fullscreen : document.body;
+}
+
+/**
+ * A popup shown above the selection grows as its translation and definitions arrive; move it up as
+ * it grows, so it stays clear of the text, until the user drags or resizes it
+ * @param bottom The popup's bottom edge to keep, in its container's coordinates
+ * @param minTop How high it may go
+ */
+function keepBottomPinned(popup: HTMLElement, bottom: number, minTop: number): void {
+  const observer = new ResizeObserver(() => {
+    if (!popup.isConnected) {
+      observer.disconnect();
+      return;
+    }
+    popup.style.top = `${Math.max(bottom - popup.offsetHeight, minTop)}px`;
+  });
+  observer.observe(popup);
+
+  popup.addEventListener('pointerdown', (event) => {
+    const target = event.target as Element | null;
+    if (target?.closest('.elang-popup-drag-handle, .elang-popup-resize-grip')) observer.disconnect();
+  });
 }
 
 /**
@@ -63,14 +96,15 @@ class PopupManager {
 
   /**
    * Position popup near selection with smart boundary detection
-   * @param position Page coordinates of the point the popup hangs below
+   * @param position Where the popup hangs: below the selection, or above it when there is no room below
    */
-  positionPopup(popup: HTMLElement, position: { x: number; y: number }): void {
+  positionPopup(popup: HTMLElement, position: PopupAnchor): void {
     const container = getPopupContainer();
     // In full screen the popup sits inside the full-screen element, placed against the viewport
     const fixed = container !== document.body;
     const viewTop = fixed ? 0 : window.scrollY;
     const anchorY = position.y - (fixed ? window.scrollY : 0);
+    const anchorTop = (position.top ?? position.y) - (fixed ? window.scrollY : 0);
 
     let left = position.x;
     let top = anchorY + POPUP_POSITION_OFFSET_PX;
@@ -95,16 +129,24 @@ class PopupManager {
       left = POPUP_EDGE_MARGIN_PX;
     }
 
-    // Adjust vertical position if off-screen (show above selection)
-    if (top + popupRect.height > viewTop + viewportHeight) {
-      top = anchorY - popupRect.height - POPUP_POSITION_OFFSET_PX;
+    // No room below: show it above the selection's top edge, clear of the text and the pointer on it.
+    // When it fits on neither side, take the side with more room and keep it inside the view.
+    const viewBottom = viewTop + viewportHeight;
+    if (top + popupRect.height > viewBottom) {
+      const aboveTop = anchorTop - popupRect.height - POPUP_POSITION_OFFSET_PX;
+      const roomAbove = anchorTop - viewTop;
+      const roomBelow = viewBottom - anchorY;
+      if (aboveTop >= viewTop || roomAbove > roomBelow) {
+        top = Math.max(aboveTop, viewTop + POPUP_EDGE_MARGIN_PX);
+      }
     }
 
     popup.style.left = `${left}px`;
     popup.style.top = `${top}px`;
+    if (top < anchorTop) keepBottomPinned(popup, top + popupRect.height, viewTop + POPUP_EDGE_MARGIN_PX);
 
     // Grow out of the selection: from its side horizontally, from the edge nearest it vertically
-    const above = top < anchorY;
+    const above = top < anchorTop;
     const originX = Math.max(0, Math.min(position.x - left, popupRect.width));
     popup.style.setProperty('--elang-origin', `${originX}px ${above ? '100%' : '0'}`);
     popup.classList.toggle('elang-popup-above', above);
@@ -115,7 +157,7 @@ class PopupManager {
    * Show a new popup (removes current popup if exists)
    * @param onRemove Called once when this popup goes away
    */
-  showPopup(popup: HTMLElement, position: { x: number; y: number }, onRemove?: PopupRemoveListener): void {
+  showPopup(popup: HTMLElement, position: PopupAnchor, onRemove?: PopupRemoveListener): void {
     this.close(true);
 
     // Also clear popups left by another copy of this script (e.g. one orphaned by an extension reload)

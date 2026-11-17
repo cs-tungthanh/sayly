@@ -4,7 +4,7 @@
 
 import { requestTranslation, isGeminiAvailable } from '../api/translation-client';
 import { createPopup } from './popup-builder';
-import { popupManager, type PopupRemoveListener } from './popup-manager';
+import { popupManager, type PopupRemoveListener, type PopupAnchor } from './popup-manager';
 import { getShowCopyButton, getShowDefinitions, getPopupSize, savePopupSize, getTheme, isDarkTheme } from '../shared/utils';
 import { makeResizable, applySavedSize, type PopupSize } from './resizable';
 import { cachedSetting } from '../shared/settings-cache';
@@ -46,7 +46,7 @@ export async function readPopupLook(): Promise<PopupLook> {
  */
 export function openTextPopup(
   text: string,
-  position: { x: number; y: number },
+  position: PopupAnchor,
   look: PopupLook,
   onRemove?: PopupRemoveListener
 ): HTMLElement {

@@ -19,9 +19,9 @@ export function getSelectedText(): string {
 }
 
 /**
- * Get the position of the current selection for popup placement
+ * Get the position of the current selection for popup placement: its middle, bottom and top
  */
-export function getSelectionPosition(): { x: number; y: number } | null {
+export function getSelectionPosition(): { x: number; y: number; top: number } | null {
   const field = getFocusedTextField();
   let rect: DOMRect;
 
@@ -37,6 +37,7 @@ export function getSelectionPosition(): { x: number; y: number } | null {
   return {
     x: rect.left + rect.width / 2,
     y: rect.bottom + window.scrollY,
+    top: rect.top + window.scrollY,
   };
 }
 

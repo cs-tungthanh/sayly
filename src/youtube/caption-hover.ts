@@ -162,7 +162,7 @@ async function showWord(word: CaptionWord): Promise<void> {
   if (count !== openCount || !word.range.startContainer.isConnected || !pointer || isOtherPopupShown()) return;
 
   const rect = word.range.getBoundingClientRect();
-  const position = { x: rect.left + rect.width / 2, y: rect.bottom + window.scrollY };
+  const position = { x: rect.left + rect.width / 2, y: rect.bottom + window.scrollY, top: rect.top + window.scrollY };
 
   // Pause only once the popup is sure to open, so nothing is left paused without one
   pauseVideo();
