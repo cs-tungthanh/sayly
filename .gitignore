@@ -39,3 +39,6 @@ pnpm-debug.log*
 
 # Edge dev profile (scripts/dev-edge.sh)
 .edge-dev-profile/
+
+# Downloaded Google OAuth client credentials
+client_secret_*.json
