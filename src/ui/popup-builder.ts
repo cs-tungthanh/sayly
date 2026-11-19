@@ -16,14 +16,15 @@ import {
   GEMINI_WORD_STAGGER_MS,
   GEMINI_WORD_STAGGER_CAP_MS,
   DICTIONARY_SITES,
-  GOOGLE_SEARCH_URL
+  GOOGLE_SEARCH_URL,
+  SPEECH_SPEEDS
 } from '../constants/app-constants';
 import { UI_LABELS } from '../constants/messages';
 import { makeDraggable } from './draggable';
 import { ICONS, createIcon, setButtonIcon } from './icons';
 import type { IconNode } from 'lucide';
 import { speechService } from '../speech/speech-service';
-import { getDictionarySite } from '../shared/utils';
+import { getDictionarySite, getSpeechSpeed, saveSpeechSpeed } from '../shared/utils';
 import { cachedSetting } from '../shared/settings-cache';
 import { isVietnamese } from '../text/text-processor';
 
@@ -80,7 +81,10 @@ export function createPopup(
   // Vietnamese text has no English pronunciation to show: it is only translated, into English
   const vietnamese = isVietnamese(text);
   const singleWord = vietnamese ? undefined : text.match(SINGLE_WORD_PATTERN)?.[1];
-  if (!vietnamese) speechService.warmUp();
+  if (!vietnamese) {
+    speechService.warmUp();
+    dragHandle.appendChild(createSpeedPicker());
+  }
 
   // Copies what is hard to select by hand: a word with its IPA, or the text with its translation
   let ipa: string | null = null;
@@ -340,6 +344,23 @@ function createDragHandle(onClose: () => void): HTMLElement {
   dragHandle.appendChild(closeButton);
 
   return dragHandle;
+}
+
+/**
+ * Create the header's voice speed picker. It saves the same setting as the toolbar popup's picker,
+ * so the next play, here or anywhere, uses it
+ */
+function createSpeedPicker(): HTMLSelectElement {
+  const select = document.createElement('select');
+  select.className = 'elang-popup-speed';
+  select.title = UI_LABELS.SPEED_TOOLTIP;
+  select.setAttribute('aria-label', UI_LABELS.SPEED_TOOLTIP);
+  SPEECH_SPEEDS.forEach((speed) => select.appendChild(new Option(`${speed}×`, String(speed))));
+
+  getSpeechSpeed().then((speed) => (select.value = String(speed)));
+  select.addEventListener('change', () => saveSpeechSpeed(Number(select.value)));
+
+  return select;
 }
 
 /**

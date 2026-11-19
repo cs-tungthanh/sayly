@@ -21,6 +21,7 @@ export const UI_LABELS = {
   CONTEXT_MENU_PRONOUNCE: 'Pronounce “%s” with Sayly',
   PLAY_TOOLTIP: 'Read out loud',
   STOP_TOOLTIP: 'Stop',
+  SPEED_TOOLTIP: 'Voice speed',
   ENABLED: 'Enabled',
   DISABLED: 'Disabled',
   DRAG_TOOLTIP: 'Drag to move',

@@ -27,9 +27,9 @@ export function makeDraggable(element: HTMLElement, handle: HTMLElement): void {
   };
 
   handle.addEventListener('pointerdown', (e: PointerEvent) => {
-    // Don't start dragging if clicking a button
+    // Don't start dragging if pressing a control in the handle
     const target = e.target as HTMLElement;
-    if (e.button !== 0 || target.closest('button')) {
+    if (e.button !== 0 || target.closest('button, select')) {
       return;
     }
 

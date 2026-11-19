@@ -311,6 +311,45 @@
   transition-duration: 60ms;
 }
 
+/* Voice speed picker, at the header's right, just before the close button */
+.elang-popup-speed {
+  position: absolute;
+  top: 2px;
+  right: 28px;
+  box-sizing: border-box;
+  height: 20px;
+  margin: 0;
+  padding: 0 7px;
+  border: none;
+  border-radius: 10px;
+  background: var(--elang-close-bg);
+  color: var(--elang-close-text);
+  font: 600 11px/20px system-ui, -apple-system, sans-serif;
+  font-variant-numeric: tabular-nums;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition:
+    background var(--elang-dur-base),
+    color var(--elang-dur-base);
+}
+
+.elang-popup-speed:hover {
+  background: var(--elang-accent-soft);
+  color: var(--elang-accent);
+}
+
+.elang-popup-speed:focus-visible {
+  outline: 2px solid var(--elang-accent-ring);
+  outline-offset: 1px;
+}
+
+/* The open list uses the page's own colors, so keep its options readable */
+.elang-popup-speed option {
+  background: var(--elang-surface);
+  color: var(--elang-text);
+}
+
 .elang-popup-drag-handle:hover {
   background: linear-gradient(to bottom, var(--elang-handle-bottom), var(--elang-handle-line));
 }
