@@ -34,7 +34,7 @@ export const UI_LABELS = {
   TRANSLATION_OFF: 'Off (no translation)',
   SUGGESTED_LANGUAGES: 'Suggested',
   OTHER_LANGUAGES: 'Other languages',
-  TRIGGER_TOOLTIP: 'Show pronunciation',
+  TRIGGER_TOOLTIP: 'Open Sayly',
   COPY_TOOLTIP: 'Copy',
   COPIED: 'Copied',
   COPY_FAILED: "Couldn't copy",
