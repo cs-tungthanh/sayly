@@ -188,7 +188,7 @@
   opacity: 1;
 }
 
-/* Small bar by the selection in "display icon" mode: open-popup icon, optional copy button */
+/* Small bar by the selection in "display icon" mode: open-popup icon, read-aloud, optional copy button */
 .elang-trigger {
   position: absolute;
   z-index: 999999;
@@ -204,6 +204,7 @@
 }
 
 .elang-trigger-button {
+  position: relative;
   box-sizing: border-box;
   width: 26px;
   height: 26px;
@@ -743,7 +744,8 @@
 }
 
 /* Speaking: a filled button with moving sound bars and a soft ripple. Hovering shows the stop icon */
-.elang-play-button.elang-play-button-playing {
+.elang-play-button.elang-play-button-playing,
+.elang-trigger-button.elang-play-button-playing {
   background: var(--elang-accent);
   color: var(--elang-surface);
   transform: none;

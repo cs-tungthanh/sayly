@@ -164,6 +164,11 @@ export function createTrigger(text: string, onOpen: () => void, showCopy: boolea
   bar.addEventListener('mousedown', (e) => e.preventDefault());
 
   bar.appendChild(createTriggerButton(ICONS.TRIGGER, UI_LABELS.TRIGGER_TOOLTIP, onOpen));
+  // Read the selection aloud without opening the popup; Vietnamese text isn't spoken, as in the popup
+  if (!isVietnamese(text)) {
+    speechService.warmUp();
+    bar.appendChild(createPlayButton(text, 'elang-trigger-button', 16));
+  }
   if (showCopy) bar.appendChild(createCopyButton('elang-trigger-button', 16, () => text));
 
   return bar;
@@ -727,12 +732,12 @@ function createSoundBars(): HTMLElement {
 /**
  * Create play button that toggles between playing and stopping the selection
  */
-function createPlayButton(text: string): HTMLElement {
+function createPlayButton(text: string, className = 'elang-play-button', iconSize = 15): HTMLElement {
   const playButton = document.createElement('button');
-  playButton.className = 'elang-play-button';
+  playButton.className = className;
 
   const showIdle = () => {
-    setButtonIcon(playButton, ICONS.SPEAK, 15, UI_LABELS.PLAY_TOOLTIP);
+    setButtonIcon(playButton, ICONS.SPEAK, iconSize, UI_LABELS.PLAY_TOOLTIP);
     playButton.classList.remove('elang-play-button-playing');
   };
 
