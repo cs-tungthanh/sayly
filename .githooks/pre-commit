@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Block commits that add secrets. Skip once with: git commit --no-verify
+set -euo pipefail
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "gitleaks not found; skipping secret scan (brew install gitleaks)" >&2
+  exit 0
+fi
+
+gitleaks git --pre-commit --staged --redact --no-banner -v

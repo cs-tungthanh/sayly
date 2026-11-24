@@ -4,6 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@12.15.0",
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "dev": "vite build --watch --mode development & vite build -c vite.config.content.ts --watch --mode development",
     "dev:edge": "bash scripts/dev-edge.sh",
     "build": "tsc && vite build && vite build -c vite.config.content.ts",
@@ -16,7 +17,8 @@
     "cws:token": "node scripts/get-refresh-token.js",
     "version:patch": "node scripts/bump-version.js patch",
     "version:minor": "node scripts/bump-version.js minor",
-    "version:major": "node scripts/bump-version.js major"
+    "version:major": "node scripts/bump-version.js major",
+    "secrets:scan": "gitleaks git --redact -v ."
   },
   "devDependencies": {
     "@types/chrome": "^0.0.268",

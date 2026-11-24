@@ -1,0 +1,11 @@
+# Gitleaks config: https://github.com/gitleaks/gitleaks#configuration
+title = "sayly"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Generated or vendored files"
+paths = [
+  '''pnpm-lock\.yaml''',
+]
